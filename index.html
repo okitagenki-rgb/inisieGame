@@ -1,84 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>和の文字遊び｜川柳・ことわざゲーム</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Noto Sans JP',sans-serif;background:#f7f1e6;color:#2c1a00;min-height:100vh}
-.wa-paper{background:#f7f1e6;background-image:repeating-linear-gradient(0deg,transparent,transparent 29px,rgba(160,120,60,0.12) 30px),repeating-linear-gradient(90deg,transparent,transparent 29px,rgba(160,120,60,0.12) 30px)}
-.hdr{background:#7a1515;color:#fdf3e0;text-align:center;padding:10px 16px 7px;border-bottom:3px solid #b87800;position:relative}
-.hdr h1{font-family:'Noto Serif JP',serif;font-size:20px;letter-spacing:5px}
-.hdr-sub{font-size:10px;color:#f0d080;letter-spacing:3px;margin-top:2px}
-.mon{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:26px;opacity:.7}
-
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans JP',sans-serif;background:#f7f1e6;color:#2c1a00}
+.app{max-width:520px;margin:0 auto;min-height:100vh;background:#f7f1e6;background-image:repeating-linear-gradient(0deg,transparent,transparent 29px,rgba(160,120,60,0.1) 30px),repeating-linear-gradient(90deg,transparent,transparent 29px,rgba(160,120,60,0.1) 30px)}
+.hdr{background:#7a1515;color:#fdf3e0;text-align:center;padding:clamp(8px,2.5vw,12px) 16px;border-bottom:3px solid #b87800;position:relative}
+.hdr h1{font-family:'Noto Serif JP',serif;font-size:clamp(16px,4.5vw,22px);letter-spacing:4px}
+.hdr-sub{font-size:clamp(9px,2.5vw,11px);color:#f0d080;letter-spacing:2px;margin-top:2px}
+.mon{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:clamp(20px,5vw,28px);opacity:.7}
 .screen{display:none}.screen.active{display:block}
 
-/* ===== TITLE ===== */
-.title-body{text-align:center;padding:18px 16px 14px}
-.kamon{font-size:58px;line-height:1;margin:6px 0}
-.title-main{font-family:'Noto Serif JP',serif;font-size:24px;color:#7a1515;letter-spacing:4px;margin:8px 0 3px}
-.title-sub{font-size:12px;color:#5a3a18;margin-bottom:18px}
-.mode-row{display:flex;gap:10px;justify-content:center;margin-bottom:16px}
-.mode-btn{flex:1;max-width:150px;padding:12px 6px;border:2px solid #7a1515;background:#fdf3e0;color:#7a1515;font-family:'Noto Serif JP',serif;font-size:15px;letter-spacing:2px;border-radius:7px;cursor:pointer;transition:.2s}
-.mode-btn:hover,.mode-btn.sel{background:#7a1515;color:#fdf3e0}
-.lv-section{background:rgba(122,21,21,.07);border:1px solid rgba(122,21,21,.22);border-radius:8px;padding:12px 14px;max-width:340px;margin:0 auto 16px}
-.lv-title{font-family:'Noto Serif JP',serif;font-size:12px;color:#7a1515;text-align:center;margin-bottom:9px;letter-spacing:2px}
+/* TITLE */
+.title-body{text-align:center;padding:clamp(14px,4vw,22px) 16px}
+.kamon{font-size:clamp(48px,14vw,70px);line-height:1;margin:6px 0}
+.title-main{font-family:'Noto Serif JP',serif;font-size:clamp(18px,5vw,26px);color:#7a1515;letter-spacing:3px;margin:8px 0 4px}
+.title-sub{font-size:clamp(11px,3vw,14px);color:#5a3a18;margin-bottom:16px}
+.mode-row{display:flex;gap:10px;justify-content:center;margin-bottom:14px}
+.mode-btn{flex:1;max-width:140px;padding:clamp(10px,3vw,14px) 6px;border:2px solid #7a1515;background:#fdf3e0;color:#7a1515;font-family:'Noto Serif JP',serif;font-size:clamp(14px,4vw,17px);letter-spacing:2px;border-radius:8px;cursor:pointer;transition:.2s}
+.mode-btn:active,.mode-btn.sel{background:#7a1515;color:#fdf3e0}
+.lv-section{background:rgba(122,21,21,.07);border:1px solid rgba(122,21,21,.22);border-radius:8px;padding:12px 14px;max-width:360px;margin:0 auto 16px}
+.lv-title{font-family:'Noto Serif JP',serif;font-size:clamp(11px,3vw,13px);color:#7a1515;text-align:center;margin-bottom:9px;letter-spacing:2px}
 .lv-row{display:flex;gap:7px;justify-content:center}
-.lv-btn{flex:1;padding:9px 4px;border:2px solid #7a1515;background:#fdf3e0;color:#7a1515;font-family:'Noto Serif JP',serif;font-size:13px;letter-spacing:1px;border-radius:6px;cursor:pointer;transition:.2s}
-.lv-btn:hover,.lv-btn.sel{background:#7a1515;color:#fdf3e0}
-.lv-desc{margin-top:8px;font-size:11px;color:#7a5020;text-align:center}
-.start-btn{display:block;width:190px;margin:0 auto;padding:13px;background:#b87800;color:#fff;font-family:'Noto Serif JP',serif;font-size:17px;letter-spacing:4px;border:none;border-radius:8px;cursor:pointer;transition:.2s}
-.start-btn:hover{background:#906000;transform:translateY(-1px)}
-.key-hint{margin-top:12px;font-size:11px;color:#7a5020;line-height:1.8}
+.lv-btn{flex:1;padding:clamp(8px,2.5vw,11px) 4px;border:2px solid #7a1515;background:#fdf3e0;color:#7a1515;font-family:'Noto Serif JP',serif;font-size:clamp(12px,3.5vw,14px);letter-spacing:1px;border-radius:6px;cursor:pointer;transition:.2s}
+.lv-btn:active,.lv-btn.sel{background:#7a1515;color:#fdf3e0}
+.lv-desc{margin-top:8px;font-size:clamp(10px,2.8vw,12px);color:#7a5020;text-align:center}
+.start-btn{display:block;width:clamp(160px,50vw,200px);margin:0 auto;padding:clamp(11px,3.5vw,14px);background:#b87800;color:#fff;font-family:'Noto Serif JP',serif;font-size:clamp(15px,4.5vw,18px);letter-spacing:3px;border:none;border-radius:8px;cursor:pointer;transition:.2s}
+.start-btn:active{background:#906000}
+.key-hint{margin-top:12px;font-size:clamp(10px,2.8vw,12px);color:#7a5020;line-height:1.9}
 
-/* ===== GAME ===== */
-.g-bar{display:flex;justify-content:space-between;align-items:center;padding:7px 12px;background:rgba(122,21,21,.07);border-bottom:1px solid rgba(122,21,21,.18);font-size:12px}
-.g-badge{background:#7a1515;color:#fdf3e0;padding:3px 9px;border-radius:11px;font-size:11px}
-.g-score{color:#7a1515;font-weight:700}
-.countdown-wrap{text-align:center;padding:12px 14px 6px;background:#fdf3e0;border:2px solid #b87800;border-radius:8px;margin:10px 10px 4px}
-.problem-label{font-size:11px;color:#7a5020;letter-spacing:2px;margin-bottom:6px}
-.problem-text{font-family:'Noto Serif JP',serif;font-size:17px;letter-spacing:3px;color:#2c1a00;line-height:1.9}
-.problem-blank{display:inline-block;background:#7a1515;color:#fdf3e0;padding:1px 7px;border-radius:3px;min-width:26px;text-align:center}
-.hint-row{font-size:10px;color:#9a6030;margin-top:5px;letter-spacing:1px}
-.cd-num{font-family:'Noto Serif JP',serif;font-size:36px;color:#7a1515;font-weight:700;text-align:center;padding:8px 0 4px}
-.ans-label{font-size:10px;color:#7a5020;margin:3px 10px 2px;letter-spacing:1px}
-.ans-area{margin:0 10px 4px;padding:7px 10px;background:#fdf3e0;border:1px dashed #b87800;border-radius:5px;min-height:38px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
-.ans-char{display:inline-flex;align-items:center;justify-content:center;width:30px;height:34px;background:#b87800;color:#fff;font-family:'Noto Serif JP',serif;font-size:17px;border-radius:4px;cursor:pointer;transition:.15s}
-.ans-char:hover{background:#906000;transform:scale(.95)}
-.field-wrap{position:relative;display:flex;justify-content:center;align-items:flex-start}
-.canvas-wrap{width:340px;height:320px;position:relative;background:#e8ddc8;overflow:hidden;border:2px solid #b87800;border-radius:0}
-#gc{width:100%;height:100%;display:block}
-.g-actions{display:flex;gap:7px;padding:8px 10px;justify-content:center;flex-wrap:wrap}
-.g-btn{padding:9px 16px;border:2px solid #7a1515;background:#fdf3e0;color:#7a1515;font-family:'Noto Serif JP',serif;font-size:13px;letter-spacing:1px;border-radius:6px;cursor:pointer;transition:.2s}
-.g-btn:hover{background:#7a1515;color:#fdf3e0}
+/* GAME */
+.g-bar{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:rgba(122,21,21,.07);border-bottom:1px solid rgba(122,21,21,.18)}
+.g-badge{background:#7a1515;color:#fdf3e0;padding:3px 9px;border-radius:11px;font-size:clamp(10px,2.8vw,12px)}
+.g-score{color:#7a1515;font-weight:700;font-size:clamp(11px,3vw,13px)}
+.prob-wrap{background:#fdf3e0;border:2px solid #b87800;border-radius:8px;margin:8px 10px 4px;padding:10px 12px;text-align:center}
+.prob-label{font-size:clamp(10px,2.8vw,11px);color:#7a5020;letter-spacing:2px;margin-bottom:5px}
+.prob-text{font-family:'Noto Serif JP',serif;font-size:clamp(14px,4.5vw,18px);letter-spacing:2px;color:#2c1a00;line-height:1.9}
+.prob-blank{display:inline-block;background:#7a1515;color:#fdf3e0;padding:1px 6px;border-radius:3px;min-width:24px;text-align:center}
+.hint-row{font-size:clamp(9px,2.5vw,11px);color:#9a6030;margin-top:5px;letter-spacing:1px}
+.cd-num{font-family:'Noto Serif JP',serif;font-size:clamp(28px,10vw,42px);color:#7a1515;font-weight:700;text-align:center;padding:4px 0 2px}
+.ans-label{font-size:clamp(10px,2.8vw,11px);color:#7a5020;margin:2px 10px;letter-spacing:1px}
+.ans-area{margin:0 10px 4px;padding:6px 10px;background:#fdf3e0;border:1px dashed #b87800;border-radius:5px;min-height:36px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.ans-char{display:inline-flex;align-items:center;justify-content:center;width:clamp(28px,8vw,34px);height:clamp(32px,9vw,38px);background:#b87800;color:#fff;font-family:'Noto Serif JP',serif;font-size:clamp(15px,4.5vw,19px);border-radius:4px;cursor:pointer;transition:.15s}
+.ans-char:active{background:#906000;transform:scale(.92)}
+.canvas-outer{width:100%;padding:0 10px}
+.canvas-wrap{width:100%;height:clamp(200px,55vw,300px);position:relative;background:#e8ddc8;overflow:hidden;border:2px solid #b87800;border-radius:4px}
+#gc{width:100%;height:100%;display:block;touch-action:none}
+.touch-note{text-align:center;font-size:clamp(9px,2.5vw,11px);color:#9a6030;padding:2px;letter-spacing:1px}
+.g-actions{display:flex;gap:7px;padding:6px 10px;justify-content:center}
+.g-btn{padding:clamp(9px,2.8vw,11px) clamp(12px,4vw,18px);border:2px solid #7a1515;background:#fdf3e0;color:#7a1515;font-family:'Noto Serif JP',serif;font-size:clamp(12px,3.5vw,14px);letter-spacing:1px;border-radius:6px;cursor:pointer;transition:.2s}
+.g-btn:active{background:#7a1515;color:#fdf3e0}
 .g-btn.primary{background:#7a1515;color:#fdf3e0}
-.g-btn.primary:hover{background:#5a0e0e}
-.touch-note{text-align:center;font-size:10px;color:#9a6030;padding:2px;letter-spacing:1px}
+.g-btn.primary:active{background:#5a0e0e}
 
-/* popup via normal flow */
-.popup-layer{display:none;background:rgba(0,0,0,.45);padding:40px 16px;min-height:300px;align-items:center;justify-content:center}
+/* POPUP */
+.popup-layer{display:none;background:rgba(0,0,0,.48);padding:30px 16px;min-height:300px;align-items:center;justify-content:center}
 .popup-layer.show{display:flex}
-.popup-box{background:#fdf3e0;border:3px solid #b87800;border-radius:10px;padding:22px 26px;text-align:center;max-width:320px;width:100%}
-.popup-ico{font-size:44px;margin-bottom:6px}
-.popup-ttl{font-family:'Noto Serif JP',serif;font-size:19px;color:#7a1515;letter-spacing:2px;margin-bottom:7px}
-.popup-body{font-family:'Noto Serif JP',serif;font-size:14px;color:#4a3010;line-height:1.8;margin-bottom:14px}
-.popup-btn{padding:10px 26px;background:#7a1515;color:#fdf3e0;border:none;border-radius:6px;font-family:'Noto Serif JP',serif;font-size:15px;letter-spacing:2px;cursor:pointer;transition:.2s}
-.popup-btn:hover{background:#5a0e0e}
+.popup-box{background:#fdf3e0;border:3px solid #b87800;border-radius:10px;padding:clamp(16px,5vw,24px) clamp(18px,5vw,28px);text-align:center;max-width:340px;width:100%}
+.popup-ico{font-size:clamp(36px,10vw,48px);margin-bottom:6px}
+.eval-badge{display:none;padding:4px 14px;border-radius:12px;font-size:clamp(12px,3.5vw,14px);font-weight:700;margin-bottom:8px}
+.popup-ttl{font-family:'Noto Serif JP',serif;font-size:clamp(16px,5vw,20px);color:#7a1515;letter-spacing:2px;margin-bottom:7px}
+.popup-body{font-family:'Noto Serif JP',serif;font-size:clamp(12px,3.5vw,15px);color:#4a3010;line-height:1.8;margin-bottom:14px}
+.popup-btn{padding:clamp(9px,3vw,12px) clamp(22px,6vw,28px);background:#7a1515;color:#fdf3e0;border:none;border-radius:6px;font-family:'Noto Serif JP',serif;font-size:clamp(14px,4vw,16px);letter-spacing:2px;cursor:pointer;transition:.2s}
+.popup-btn:active{background:#5a0e0e}
 
-/* AI eval popup extra */
-.eval-badge{display:inline-block;padding:4px 14px;border-radius:12px;font-size:13px;font-weight:700;margin-bottom:8px}
-
-/* ===== RESULT ===== */
-.result-body{text-align:center;padding:14px 16px}
-.zb-emoji{font-size:70px;margin:8px 0;line-height:1}
-.zb-title{font-family:'Noto Serif JP',serif;font-size:21px;color:#7a1515;letter-spacing:3px;margin-bottom:5px}
-.zb-desc{font-family:'Noto Serif JP',serif;font-size:13px;color:#4a3010;line-height:1.9;margin-bottom:12px;white-space:pre-line}
-.score-tbl{background:rgba(122,21,21,.06);border:1px solid rgba(122,21,21,.18);border-radius:8px;padding:10px 14px;max-width:300px;margin:0 auto 12px}
-.score-row{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;border-bottom:1px solid rgba(122,21,21,.08)}
+/* RESULT */
+.result-body{text-align:center;padding:clamp(12px,4vw,18px) 16px}
+.zb-emoji{font-size:clamp(56px,18vw,76px);margin:8px 0;line-height:1}
+.zb-title{font-family:'Noto Serif JP',serif;font-size:clamp(18px,5.5vw,23px);color:#7a1515;letter-spacing:3px;margin-bottom:5px}
+.zb-desc{font-family:'Noto Serif JP',serif;font-size:clamp(12px,3.5vw,14px);color:#4a3010;line-height:1.9;margin-bottom:12px;white-space:pre-line}
+.score-tbl{background:rgba(122,21,21,.06);border:1px solid rgba(122,21,21,.18);border-radius:8px;padding:10px 14px;max-width:320px;margin:0 auto 12px}
+.score-row{display:flex;justify-content:space-between;font-size:clamp(12px,3.5vw,14px);padding:3px 0;border-bottom:1px solid rgba(122,21,21,.08)}
 .score-row:last-child{border-bottom:none}
-.review-list{max-width:340px;margin:0 auto 12px;text-align:left}
-.review-item{font-size:11px;padding:7px 9px;border-radius:5px;margin-bottom:5px;line-height:1.7}
+.review-list{max-width:360px;margin:0 auto 14px;text-align:left}
+.review-item{font-size:clamp(11px,3vw,12px);padding:7px 9px;border-radius:5px;margin-bottom:5px;line-height:1.7}
 </style>
-<div class="wa-paper">
+</head>
+<body>
+<div class="app">
 <div class="hdr">
-  <h1 id="hdrTitle">川柳・ことわざ ゲーム</h1>
+  <h1 id="hdrTitle">和の文字遊び</h1>
   <div class="hdr-sub">〜 落ちてくる文字を拾って句を完成させよ 〜</div>
   <span class="mon">⛩</span>
 </div>
@@ -90,8 +95,8 @@ body{font-family:'Noto Sans JP',sans-serif;background:#f7f1e6;color:#2c1a00;min-
     <div class="title-main">和の文字遊び</div>
     <div class="title-sub">モードを選んで遊びましょう</div>
     <div class="mode-row">
-      <button class="mode-btn sel" id="btnModeSenryu" onclick="selectMode('senryu',this)">川　柳</button>
-      <button class="mode-btn" id="btnModeKoto" onclick="selectMode('kotowaza',this)">ことわざ</button>
+      <button class="mode-btn sel" onclick="selectMode('senryu',this)">川　柳</button>
+      <button class="mode-btn" onclick="selectMode('kotowaza',this)">ことわざ</button>
     </div>
     <div class="lv-section">
       <div class="lv-title">〜 難 易 度 〜</div>
@@ -103,7 +108,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:#f7f1e6;color:#2c1a00;min-
       <div class="lv-desc" id="lvDesc">ゆっくり落ちてきます。じっくり考えて！</div>
     </div>
     <button class="start-btn" onclick="startGame()">は じ め る</button>
-    <div class="key-hint">← → キー または 画面タップで左右移動<br>文字に重なると自動で拾います</div>
+    <div class="key-hint">画面をタップ・スワイプで左右移動<br>文字に重なると自動で拾います</div>
   </div>
 </div>
 
@@ -112,22 +117,22 @@ body{font-family:'Noto Sans JP',sans-serif;background:#f7f1e6;color:#2c1a00;min-
   <div class="g-bar">
     <span class="g-badge" id="gBadge">一般</span>
     <span class="g-score" id="gCounter">問題 1/10</span>
-    <span style="font-size:12px;color:#7a1515" id="gScore">正解: 0</span>
+    <span style="font-size:clamp(11px,3vw,13px);color:#7a1515" id="gScore">正解: 0</span>
   </div>
-  <div class="countdown-wrap">
-    <div class="problem-label" id="probLabel">【ことわざ穴埋め】</div>
-    <div class="problem-text" id="probText">－</div>
+  <div class="prob-wrap">
+    <div class="prob-label" id="probLabel">【ことわざ穴埋め】</div>
+    <div class="prob-text" id="probText">－</div>
     <div class="hint-row" id="hintRow">ヒント：－</div>
     <div class="cd-num" id="cdNum" style="display:none">5</div>
   </div>
   <div class="ans-label">拾った文字：</div>
   <div class="ans-area" id="ansArea"><span style="font-size:11px;color:#b8a080">文字を拾うとここに集まります</span></div>
-  <div class="field-wrap">
+  <div class="canvas-outer">
     <div class="canvas-wrap">
       <canvas id="gc"></canvas>
     </div>
   </div>
-  <div class="touch-note">画面をタップ/スワイプで左右移動</div>
+  <div class="touch-note">画面をタップ／スワイプで左右移動</div>
   <div class="g-actions">
     <button class="g-btn" onclick="clearAns()">やり直し</button>
     <button class="g-btn primary" onclick="submitAns()">答える</button>
@@ -155,11 +160,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:#f7f1e6;color:#2c1a00;min-
   </div>
 </div>
 
-<!-- POPUP (normal-flow) -->
+<!-- POPUP -->
 <div class="popup-layer" id="popupLayer">
   <div class="popup-box">
     <div class="popup-ico" id="pIco">⭕</div>
-    <div class="eval-badge" id="evalBadge" style="display:none"></div>
+    <div class="eval-badge" id="evalBadge"></div>
     <div class="popup-ttl" id="pTitle">正解！</div>
     <div class="popup-body" id="pBody">－</div>
     <button class="popup-btn" id="pBtn" onclick="nextQ()">次の問題へ</button>
@@ -167,66 +172,76 @@ body{font-family:'Noto Sans JP',sans-serif;background:#f7f1e6;color:#2c1a00;min-
 </div>
 
 <script>
-const KOTO_Q = {
+const KOTO={
   ippan:[
-    {blank:'いし',display:'□□の上にも三年',hint:'忍耐が大切',answer:'いし',decoys:['かわ','はな','やま','うみ','つき']},
-    {blank:'ねこ',display:'□□に小判',hint:'価値がわからないたとえ',answer:'ねこ',decoys:['いぬ','とり','うし','さる','うま']},
-    {blank:'なかま',display:'類は□□□を呼ぶ',hint:'似た者同士が集まる',answer:'なかま',decoys:['ともだち','ひとびと','こころ','ひかり','いろいろ']},
-    {blank:'たび',display:'□□は道連れ世は情け',hint:'旅のことわざ',answer:'たび',decoys:['よる','あさ','はな','かぜ','うた']},
-    {blank:'かぜ',display:'□□が吹けば桶屋が儲かる',hint:'思わぬ因果関係',answer:'かぜ',decoys:['あめ','ゆき','くも','つき','ほし']},
-    {blank:'さる',display:'□□も木から落ちる',hint:'名人でも失敗する',answer:'さる',decoys:['とり','うし','いぬ','ねこ','うま']},
-    {blank:'いそ',display:'□□□がば回れ',hint:'急ぐときほど慎重に',answer:'いそ',decoys:['はや','おそ','あわ','ゆる','すぐ']},
-    {blank:'はな',display:'□□より団子',hint:'実利を重んじる',answer:'はな',decoys:['つき','ゆき','そら','かぜ','あめ']},
-    {blank:'ながい',display:'□□□□ものには巻かれろ',hint:'強いものには従え',answer:'ながい',decoys:['おおき','つよい','やさし','あかい','くろい']},
-    {blank:'おに',display:'□□に金棒',hint:'強い者がさらに強くなる',answer:'おに',decoys:['かみ','てん','ほし','つき','かぜ']}
+    {blank:'いし',display:'□□の上にも三年',hint:'忍耐が大切',decoys:['かわ','はな','やま','うみ','つき']},
+    {blank:'ねこ',display:'□□に小判',hint:'価値がわからないたとえ',decoys:['いぬ','とり','うし','さる','うま']},
+    {blank:'たび',display:'□□は道連れ世は情け',hint:'旅のことわざ',decoys:['よる','あさ','はな','かぜ','うた']},
+    {blank:'かぜ',display:'□□が吹けば桶屋が儲かる',hint:'思わぬ因果関係',decoys:['あめ','ゆき','くも','つき','ほし']},
+    {blank:'さる',display:'□□も木から落ちる',hint:'名人でも失敗する',decoys:['とり','うし','いぬ','ねこ','うま']},
+    {blank:'いそ',display:'□□□がば回れ',hint:'急ぐときほど慎重に',decoys:['はや','おそ','あわ','ゆる','すぐ']},
+    {blank:'はな',display:'□□より団子',hint:'実利を重んじる',decoys:['つき','ゆき','そら','かぜ','あめ']},
+    {blank:'おに',display:'□□に金棒',hint:'強い者がさらに強くなる',decoys:['かみ','てん','ほし','つき','かぜ']},
+    {blank:'なかま',display:'類は□□□を呼ぶ',hint:'似た者同士が集まる',decoys:['ともだち','ひとびと','こころ','ひかり','いろいろ']},
+    {blank:'ながい',display:'□□□□ものには巻かれろ',hint:'強いものには従え',decoys:['おおき','つよい','やさし','あかい','くろい']}
   ],
   chukyu:[
-    {blank:'かべ',display:'□□に耳あり障子に目あり',hint:'どこで聞かれているかわからない',answer:'かべ',decoys:['とびら','まど','ゆか','てんじょう','いた']},
-    {blank:'あとのまつり',display:'後悔先に立たず □□□□□□□□',hint:'手遅れのたとえ',answer:'あとのまつり',decoys:['くやしいな','もうおそい','しかたない','にどとない','かえらない']},
-    {blank:'みっか',display:'□□□坊主',hint:'飽きっぽい人のたとえ',answer:'みっか',decoys:['いっか','なのか','じゅうか','よっか','むいか']},
-    {blank:'ふところ',display:'火中の栗を拾う □□□□□□に入れる',hint:'危険を冒して利益を得る',answer:'ふところ',decoys:['かごの中','てぶくろ','はこの中','たなの上','かわの中']},
-    {blank:'たなぼた',display:'□□□□□式',hint:'棚から落ちてくる偶然の幸運',answer:'たなぼた',decoys:['おちてきた','ひろいもの','めぐまれた','さいわいな','うれしいな']},
-    {blank:'さじ',display:'□□を投げる',hint:'諦めること',answer:'さじ',decoys:['はし','つえ','ふで','かさ','かぎ']},
-    {blank:'もとのもくあみ',display:'骨折り損の□□□□□□□□',hint:'苦労しても元通り',answer:'もとのもくあみ',decoys:['くたびれもうけ','やりなおしだ','つかれただけ','むだなのです','かえらぬひび']},
-    {blank:'くちはわざわい',display:'□□□□□□□□のもと',hint:'余計なことを言わないこと',answer:'くちはわざわい',decoys:['ことばがおち','げんがまずい','いいすぎると','はなしすぎて','むだぐちきく']},
-    {blank:'えびで',display:'□□□□鯛を釣る',hint:'少ない元手で大きな利益',answer:'えびで',decoys:['おかねで','ちいさな','わずかな','すこしの','やすくて']},
-    {blank:'ないそで',display:'□□□□□は振れぬ',hint:'持っていないものは出せない',answer:'ないそで',decoys:['あるものは','もっている','もたぬもの','かなしいが','むりにでも']}
+    {blank:'かべ',display:'□□に耳あり障子に目あり',hint:'どこで聞かれているかわからない',decoys:['とびら','まど','ゆか','てんじょう','いた']},
+    {blank:'みっか',display:'□□□坊主',hint:'飽きっぽい人のたとえ',decoys:['いっか','なのか','じゅうか','よっか','むいか']},
+    {blank:'さじ',display:'□□を投げる',hint:'諦めること',decoys:['はし','つえ','ふで','かさ','かぎ']},
+    {blank:'えびで',display:'□□□□鯛を釣る',hint:'少ない元手で大きな利益',decoys:['おかねで','ちいさな','わずかな','すこしの','やすくて']},
+    {blank:'ないそで',display:'□□□□□は振れぬ',hint:'持っていないものは出せない',decoys:['あるものは','もっている','もたぬもの','かなしいが','むりにでも']},
+    {blank:'たなぼた',display:'□□□□□式',hint:'棚から落ちてくる偶然の幸運',decoys:['おちてきた','ひろいもの','めぐまれた','さいわいな','うれしいな']},
+    {blank:'くちはわざわい',display:'□□□□□□□□のもと',hint:'余計なことを言わないこと',decoys:['ことばがおち','げんがまずい','いいすぎると','はなしすぎて','むだぐちきく']},
+    {blank:'あとのまつり',display:'後悔先に立たず□□□□□□□□',hint:'手遅れのたとえ',decoys:['くやしいな','もうおそい','しかたない','にどとない','かえらない']},
+    {blank:'ぬかにくぎ',display:'□□□□□□手ごたえなし',hint:'何の効果もないたとえ',decoys:['かわにいし','そらにくも','みずにいと','やまにかぜ','はなにつゆ']},
+    {blank:'もとのもくあみ',display:'骨折り損の□□□□□□□□',hint:'苦労しても元通り',decoys:['くたびれもうけ','やりなおしだ','つかれただけ','むだなのです','かえらぬひび']}
   ],
   meijin:[
-    {blank:'ひとのふりみて',display:'□□□□□□□□□わがふり直せ',hint:'他人から学ぶ',answer:'ひとのふりみて',decoys:['よそをながめて','たにんのことは','かがみをみても','じぶんだけでは','まわりをみても']},
-    {blank:'ぬかにくぎ',display:'□□□□□□手ごたえなし',hint:'何の効果もないたとえ',answer:'ぬかにくぎ',decoys:['かわにいし','そらにくも','みずにいと','やまにかぜ','はなにつゆ']},
-    {blank:'あとは野となれ山となれ',display:'どうにでもなれ □□□□□□□□□□□□□',hint:'後のことは知らない',answer:'あとは野となれ山となれ',decoys:['なるようになれよ','まあいいかとも','もうおわったわ','これでいいのだ','しらぬがほとけ']},
-    {blank:'たでくうむしも',display:'□□□□□□□□好き好き',hint:'人の好みは様々',answer:'たでくうむしも',decoys:['にがいものでも','だれでもすきな','むしのこころも','はっぱをたべる','うまいまずいも']},
-    {blank:'けがのこうみょう',display:'失敗が□□□□□□□□□□になる',hint:'失敗が思わぬ成功をもたらす',answer:'けがのこうみょう',decoys:['おもわぬせいこう','たなぼたしゅぎ','まぐれあたりに','しっぱいがもと','つごうのいいこと']},
-    {blank:'よもやまばなし',display:'□□□□□□□□□□に花が咲く',hint:'世間話のこと',answer:'よもやまばなし',decoys:['むかしのことを','あのころのこと','たのしいおはな','くちからでまか','いろいろなはな']},
-    {blank:'いわぬがはな',display:'□□□□□□□□□である',hint:'言わないほうがよい',answer:'いわぬがはな',decoys:['もくさつすべし','だまっていよう','くちはとざせよ','いわないことが','おしゃべりはだめ']},
-    {blank:'こうかいさきにたたず',display:'後悔先に立たず／□□□□□□□□□□',hint:'ことわざの続き',answer:'こうかいさきにたたず',decoys:['くやんでもおそい','しっぱいはもとで','まえをよくみよう','かんがえてみれば','もどれないのです']},
-    {blank:'あかのたにん',display:'他人のそら似 □□□□□□□□',hint:'全くの他人のこと',answer:'あかのたにん',decoys:['むかんけいのひと','ただのにんげん','しらないひとの','まったくむえんの','かんけいないひと']},
-    {blank:'はじをすてる',display:'清水の舞台から □□□□□□□□□',hint:'思い切って決断する',answer:'はじをすてる',decoys:['とびおりるほど','おもいきってね','けっしんをする','ゆうきをだして','なにもかもすて']}
+    {blank:'ひとのふりみて',display:'□□□□□□□□□わがふり直せ',hint:'他人から学ぶ',decoys:['よそをながめて','たにんのことは','かがみをみても','じぶんだけでは','まわりをみても']},
+    {blank:'たでくうむしも',display:'□□□□□□□□好き好き',hint:'人の好みは様々',decoys:['にがいものでも','だれでもすきな','むしのこころも','はっぱをたべる','うまいまずいも']},
+    {blank:'けがのこうみょう',display:'失敗が□□□□□□□□□□になる',hint:'失敗が思わぬ成功をもたらす',decoys:['おもわぬせいこう','たなぼたしゅぎ','まぐれあたりに','しっぱいがもと','つごうのいいこと']},
+    {blank:'いわぬがはな',display:'□□□□□□□□□である',hint:'言わないほうがよい',decoys:['もくさつすべし','だまっていよう','くちはとざせよ','いわないことが','おしゃべりはだめ']},
+    {blank:'あかのたにん',display:'他人のそら似□□□□□□□□',hint:'全くの他人のこと',decoys:['むかんけいのひと','ただのにんげん','しらないひとの','まったくむえんの','かんけいないひと']},
+    {blank:'よもやまばなし',display:'□□□□□□□□□□に花が咲く',hint:'世間話のこと',decoys:['むかしのことを','あのころのこと','たのしいおはな','くちからでまか','いろいろなはな']},
+    {blank:'はじをすてる',display:'清水の舞台から□□□□□□□□□',hint:'思い切って決断する',decoys:['とびおりるほど','おもいきってね','けっしんをする','ゆうきをだして','なにもかもすて']},
+    {blank:'こうかいさきにたたず',display:'後悔先に立たず／□□□□□□□□□□',hint:'ことわざの続き',decoys:['くやんでもおそい','しっぱいはもとで','まえをよくみよう','かんがえてみれば','もどれないのです']},
+    {blank:'ひとのふんどしで',display:'□□□□□□□□□□相撲を取る',hint:'他人のものを使うたとえ',decoys:['じぶんのものでも','かりてきたもので','つかわせてもらい','おかりしながらも','たにんのたすけで']},
+    {blank:'せんりのみちも',display:'□□□□□□□□一歩から',hint:'大きな目標も小さな一歩から',decoys:['とおいみちのりも','はるかかなたでも','ながいたびでさえ','おおきなゆめでも','むずかしいことも']}
   ]
 };
 
-const SENRYU_Q = {
+const SENRYU={
   ippan:[
-    {kami:'古池や　蛙飛び込む',shimo:'みずのおと',display:'古池や　蛙飛び込む　【下の句を作れ】',hint:'松尾芭蕉の有名な俳句の結び',chars:['み','ず','の','お','と']},
-    {kami:'菜の花や　月は東に',shimo:'ひはにしに',display:'菜の花や　月は東に　【下の句を作れ】',hint:'与謝蕪村の句・方角が対になる',chars:['ひ','は','に','し','に']},
-    {kami:'やせ蛙　負けるな一茶',shimo:'これにあり',display:'やせ蛙　負けるな一茶　【下の句を作れ】',hint:'小林一茶の応援の句',chars:['こ','れ','に','あ','り']},
-    {kami:'春の海　終日のたり',shimo:'のたりかな',display:'春の海　終日のたり　【下の句を作れ】',hint:'のんびりした春の海',chars:['の','た','り','か','な']},
-    {kami:'静けさや　岩に沁み入る',shimo:'せみのこえ',display:'静けさや　岩に沁み入る　【下の句を作れ】',hint:'夏の虫の声',chars:['せ','み','の','こ','え']}
+    {kami:'古池や　蛙飛び込む',shimo:'みずのおと',hint:'松尾芭蕉の有名な俳句の結び',chars:['み','ず','の','お','と']},
+    {kami:'菜の花や　月は東に',shimo:'ひはにしに',hint:'与謝蕪村の句・方角が対になる',chars:['ひ','は','に','し','に']},
+    {kami:'やせ蛙　負けるな一茶',shimo:'これにあり',hint:'小林一茶の応援の句',chars:['こ','れ','に','あ','り']},
+    {kami:'春の海　終日のたり',shimo:'のたりかな',hint:'のんびりした春の海',chars:['の','た','り','か','な']},
+    {kami:'静けさや　岩に沁み入る',shimo:'せみのこえ',hint:'夏の虫の声',chars:['せ','み','の','こ','え']},
+    {kami:'柿食えば　鐘が鳴るなり',shimo:'ほうりゅうじ',hint:'正岡子規の名句・奈良の古寺',chars:['ほ','う','り','ゅ','う','じ']},
+    {kami:'目には青葉　山ほととぎす',shimo:'はつがつお',hint:'初夏の風物詩',chars:['は','つ','が','つ','お']},
+    {kami:'荒海や　佐渡によこたう',shimo:'あまのがわ',hint:'夜空に横たわるもの',chars:['あ','ま','の','が','わ']},
+    {kami:'初時雨　猿も小蓑を',shimo:'ほしげなり',hint:'猿が雨具を欲しそうにしている',chars:['ほ','し','げ','な','り']},
+    {kami:'枯れ枝に　烏のとまりけり',shimo:'あきのくれ',hint:'秋のたそがれ',chars:['あ','き','の','く','れ']}
   ],
   chukyu:[
-    {kami:'柿食えば　鐘が鳴るなり',shimo:'ほうりゅうじ',display:'柿食えば　鐘が鳴るなり　【下の句を作れ】',hint:'正岡子規の名句・奈良の古寺',chars:['ほ','う','り','ゅ','う','じ']},
-    {kami:'目には青葉　山ほととぎす',shimo:'はつがつお',display:'目には青葉　山ほととぎす　【下の句を作れ】',hint:'初夏の風物詩',chars:['は','つ','が','つ','お']},
-    {kami:'荒海や　佐渡によこたう',shimo:'あまのがわ',display:'荒海や　佐渡によこたう　【下の句を作れ】',hint:'夜空に横たわるもの',chars:['あ','ま','の','が','わ']},
-    {kami:'初時雨　猿も小蓑を',shimo:'ほしげなり',display:'初時雨　猿も小蓑を　【下の句を作れ】',hint:'猿が雨具を欲しそうにしている',chars:['ほ','し','げ','な','り']},
-    {kami:'枯れ枝に　烏のとまりけり',shimo:'あきのくれ',display:'枯れ枝に　烏のとまりけり　【下の句を作れ】',hint:'秋のたそがれ',chars:['あ','き','の','く','れ']}
+    {kami:'世の中は　三日見ぬ間の',shimo:'さくらかな',hint:'世の無常を桜で詠む',chars:['さ','く','ら','か','な']},
+    {kami:'降る雪や　明治は遠く',shimo:'なりにけり',hint:'中村草田男の句',chars:['な','り','に','け','り']},
+    {kami:'万緑の　中や吾子の歯',shimo:'はえそめし',hint:'緑の中に白い歯',chars:['は','え','そ','め','し']},
+    {kami:'夏草や　兵どもが',shimo:'ゆめのあと',hint:'芭蕉の旅・平泉',chars:['ゆ','め','の','あ','と']},
+    {kami:'旅に病んで　夢は枯れ野を',shimo:'かけめぐる',hint:'芭蕉の辞世の句',chars:['か','け','め','ぐ','る']},
+    {kami:'春暁や　白きうちより',shimo:'あけぼのの',hint:'春の夜明けを詠む',chars:['あ','け','ぼ','の','の']},
+    {kami:'行く春や　鳥啼き魚の',shimo:'めはなみだ',hint:'芭蕉の別れの句',chars:['め','は','な','み','だ']},
+    {kami:'名月や　池をめぐりて',shimo:'よもすがら',hint:'月を一晩眺める',chars:['よ','も','す','が','ら']},
+    {kami:'草の戸も　住み替はる代ぞ',shimo:'ひなのいえ',hint:'ひな祭りの句',chars:['ひ','な','の','い','え']},
+    {kami:'五月雨を　あつめて早し',shimo:'もがみがわ',hint:'奥の細道の名句',chars:['も','が','み','が','わ']}
   ],
   meijin:[
-    {kami:'世の中は　三日見ぬ間の',shimo:'さくらかな',display:'世の中は　三日見ぬ間の　【下の句を作れ】',hint:'世の無常を桜で詠む',chars:['さ','く','ら','か','な']},
-    {kami:'降る雪や　明治は遠く',shimo:'なりにけり',display:'降る雪や　明治は遠く　【下の句を作れ】',hint:'中村草田男の句',chars:['な','り','に','け','り']},
-    {kami:'万緑の　中や吾子の歯',shimo:'はえそめし',display:'万緑の　中や吾子の歯　【下の句を作れ】',hint:'緑の中に白い歯',chars:['は','え','そ','め','し']},
-    {kami:'夏草や　兵どもが',shimo:'ゆめのあと',display:'夏草や　兵どもが　【下の句を作れ】',hint:'芭蕉の旅・平泉',chars:['ゆ','め','の','あ','と']},
-    {kami:'旅に病んで　夢は枯れ野を',shimo:'かけめぐる',display:'旅に病んで　夢は枯れ野を　【下の句を作れ】',hint:'芭蕉の辞世の句',chars:['か','け','め','ぐ','る']}
+    {kami:'木枯らしや　海に夕日を',shimo:'ふきおとす',hint:'木枯らしの力強さ',chars:['ふ','き','お','と','す']},
+    {kami:'春の夜や　女人の髪の',shimo:'においかな',hint:'春の夜の香り',chars:['に','お','い','か','な']},
+    {kami:'白露や　茨の刺に',shimo:'ひとつずつ',hint:'茨の棘に一粒ずつ',chars:['ひ','と','つ','ず','つ']},
+    {kami:'古暦　捨てかねて今日も',shimo:'まためくる',hint:'古い暦をめくる',chars:['ま','た','め','く','る']},
+    {kami:'春風や　闘志いだきて',shimo:'おかにたつ',hint:'丘に立つ闘志',chars:['お','か','に','た','つ']}
   ]
 };
 
@@ -239,21 +254,20 @@ const ZABUTON=[
   {min:0,max:1,emoji:'😅',title:'座布団没収！',desc:'山田くーん、全部持っていって！\n次回はきっと上手くいきます！'}
 ];
 
-const SPEEDS={ippan:0.55,chukyu:1.1,meijin:1.8};
+const SPEEDS={ippan:0.5,chukyu:1.0,meijin:1.7};
 const LV_DESC={ippan:'ゆっくり落ちてきます。じっくり考えて！',chukyu:'少し速くなります。集中して！',meijin:'速い落下！瞬時の判断を！'};
 
-let gameMode='senryu', level='ippan';
-let questions=[], curQ=0, score=0, answers=[], review=[];
-let fallingChars=[], playerX=0, animId=null, lastTs=0;
-let canvas,ctx,cW=340,cH=320,pW=44,pH=16;
-let gameActive=false, countingDown=false, cdLeft=5, cdTimer=null;
+let gameMode='senryu',level='ippan';
+let questions=[],curQ=0,score=0,answers=[],review=[];
+let fallingChars=[],playerX=0,animId=null,lastTs=0;
+let canvas,ctx,cW=300,cH=220,pW=0,pH=14;
+let gameActive=false,countingDown=false,cdLeft=5,cdTimer=null;
 let touchSX=0;
 
 function selectMode(m,btn){
   gameMode=m;
   document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel');
-  document.getElementById('hdrTitle').textContent = m==='senryu'?'川柳 下の句ゲーム':'ことわざ穴埋めゲーム';
 }
 function selectLv(lv,btn){
   level=lv;
@@ -264,7 +278,7 @@ function selectLv(lv,btn){
 function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
 
 function startGame(){
-  const pool = gameMode==='senryu' ? SENRYU_Q[level] : KOTO_Q[level];
+  const pool=gameMode==='senryu'?SENRYU[level]:KOTO[level];
   questions=shuffle(pool).slice(0,Math.min(10,pool.length));
   curQ=0;score=0;answers=[];review=[];
   showScreen('scGame');
@@ -272,74 +286,65 @@ function startGame(){
   loadQ();
 }
 
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
 function loadQ(){
   const q=questions[curQ];
   document.getElementById('gCounter').textContent=`問題 ${curQ+1}/${questions.length}`;
   document.getElementById('gScore').textContent=`正解: ${score}`;
   document.getElementById('gBadge').textContent={ippan:'一般',chukyu:'中級',meijin:'名人'}[level];
-  answers=[];updateAnsArea();
-  fallingChars=[];
-  gameActive=false;
-
+  answers=[];updateAnsArea();fallingChars=[];gameActive=false;
   if(gameMode==='kotowaza'){
     document.getElementById('probLabel').textContent='【ことわざ穴埋め】';
-    const disp=q.display.replace('□'.repeat(q.blank.length),`<span class="problem-blank">${'□'.repeat(q.blank.length)}</span>`);
-    document.getElementById('probText').innerHTML=disp;
+    const blanks='□'.repeat(q.blank.length);
+    document.getElementById('probText').innerHTML=q.display.replace(blanks,`<span class="prob-blank">${blanks}</span>`);
     document.getElementById('hintRow').textContent=`ヒント：${q.hint}`;
-    spawnKotoChars(q);
+    spawnKoto(q);
   } else {
     document.getElementById('probLabel').textContent='【川柳 下の句作り】';
     document.getElementById('probText').textContent=`上の句：${q.kami}`;
     document.getElementById('hintRow').textContent=`ヒント：${q.hint}`;
-    spawnSenryuChars(q);
+    spawnSenryu(q);
   }
-  startCountdown();
+  startCD();
 }
 
-function spawnKotoChars(q){
-  const correctChars=q.blank.split('');
-  const decoys=shuffle([...q.decoys]).slice(0,Math.max(2,5-correctChars.length));
-  const all=shuffle([...correctChars,...decoys]).slice(0,5);
+function spawnKoto(q){
+  const cor=q.blank.split('');
+  const dec=shuffle([...q.decoys]).slice(0,Math.max(2,5-cor.length));
+  const all=shuffle([...cor,...dec]).slice(0,5);
   const sp=cW/(all.length+1);
-  all.forEach((c,i)=>{
-    fallingChars.push({char:c,x:sp*(i+1)+(Math.random()-.5)*15,y:-25-i*45,speed:SPEEDS[level]+(Math.random()*.3),collected:false});
-  });
+  all.forEach((c,i)=>{fallingChars.push({char:c,x:sp*(i+1)+(Math.random()-.5)*14,y:-28-i*46,speed:SPEEDS[level]+(Math.random()*.3),collected:false});});
 }
-function spawnSenryuChars(q){
+function spawnSenryu(q){
   const all=shuffle([...q.chars]).slice(0,5);
   const sp=cW/(all.length+1);
-  all.forEach((c,i)=>{
-    fallingChars.push({char:c,x:sp*(i+1)+(Math.random()-.5)*15,y:-25-i*50,speed:SPEEDS[level]+(Math.random()*.3),collected:false});
-  });
+  all.forEach((c,i)=>{fallingChars.push({char:c,x:sp*(i+1)+(Math.random()-.5)*14,y:-28-i*50,speed:SPEEDS[level]+(Math.random()*.3),collected:false});});
 }
 
-function startCountdown(){
+function startCD(){
   cdLeft=5;
-  document.getElementById('cdNum').style.display='block';
-  document.getElementById('cdNum').textContent=cdLeft;
+  const el=document.getElementById('cdNum');
+  el.style.display='block';el.textContent=cdLeft;
   countingDown=true;
   if(cdTimer)clearInterval(cdTimer);
   cdTimer=setInterval(()=>{
     cdLeft--;
-    if(cdLeft<=0){
-      clearInterval(cdTimer);
-      document.getElementById('cdNum').style.display='none';
-      countingDown=false;
-      gameActive=true;
-    } else {
-      document.getElementById('cdNum').textContent=cdLeft;
-    }
+    if(cdLeft<=0){clearInterval(cdTimer);el.style.display='none';countingDown=false;gameActive=true;}
+    else el.textContent=cdLeft;
   },1000);
 }
 
 function initCanvas(){
   canvas=document.getElementById('gc');
   ctx=canvas.getContext('2d');
-  cW=canvas.parentElement.clientWidth||340;
-  cH=canvas.parentElement.clientHeight||320;
+  const wrap=canvas.parentElement;
+  cW=wrap.clientWidth;cH=wrap.clientHeight;
   canvas.width=cW;canvas.height=cH;
+  pW=Math.max(44,cW*0.13);
   playerX=cW/2-pW/2;
   if(animId)cancelAnimationFrame(animId);
   lastTs=0;
@@ -349,13 +354,13 @@ function initCanvas(){
 
 function setupInput(){
   document.onkeydown=e=>{
-    if(e.key==='ArrowLeft')playerX=Math.max(0,playerX-18);
-    if(e.key==='ArrowRight')playerX=Math.min(cW-pW,playerX+18);
+    if(e.key==='ArrowLeft')playerX=Math.max(0,playerX-20);
+    if(e.key==='ArrowRight')playerX=Math.min(cW-pW,playerX+20);
   };
   canvas.ontouchstart=e=>{touchSX=e.touches[0].clientX;e.preventDefault();};
   canvas.ontouchmove=e=>{
     const dx=e.touches[0].clientX-touchSX;
-    playerX=Math.max(0,Math.min(cW-pW,playerX+dx*.7));
+    playerX=Math.max(0,Math.min(cW-pW,playerX+dx*0.8));
     touchSX=e.touches[0].clientX;e.preventDefault();
   };
   canvas.onclick=e=>{
@@ -366,24 +371,23 @@ function setupInput(){
 
 function loop(ts){
   if(!lastTs)lastTs=ts;
-  const dt=ts-lastTs;lastTs=ts;
+  const dt=Math.min(ts-lastTs,50);lastTs=ts;
   ctx.clearRect(0,0,cW,cH);
-
   ctx.fillStyle='#e8ddc8';ctx.fillRect(0,0,cW,cH);
-  ctx.strokeStyle='rgba(160,120,60,0.13)';ctx.lineWidth=.5;
+  ctx.strokeStyle='rgba(160,120,60,0.12)';ctx.lineWidth=.5;
   for(let y=0;y<cH;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cW,y);ctx.stroke();}
 
+  const charSz=Math.max(28,Math.min(38,cW*0.1));
   fallingChars.forEach(fc=>{
     if(fc.collected)return;
     if(gameActive)fc.y+=fc.speed*(dt/16);
     const pcx=playerX+pW/2,pcy=cH-pH-8;
-    if(gameActive&&Math.abs(fc.x-pcx)<pW/2+12&&Math.abs(fc.y-pcy)<pH+10){collect(fc);return;}
-    if(fc.y>cH+20){fc.y=-25;fc.x=20+Math.random()*(cW-40);}
-    const sz=34;
+    if(gameActive&&Math.abs(fc.x-pcx)<pW/2+10&&Math.abs(fc.y-pcy)<pH+10){collect(fc);return;}
+    if(fc.y>cH+20){fc.y=-28;fc.x=20+Math.random()*(cW-40);}
     ctx.fillStyle='#7a1515';
-    rr(ctx,fc.x-sz/2,fc.y-sz/2,sz,sz,6);ctx.fill();
+    rr(ctx,fc.x-charSz/2,fc.y-charSz/2,charSz,charSz,6);ctx.fill();
     ctx.fillStyle='#fdf3e0';
-    ctx.font=`bold 18px 'Noto Serif JP',serif`;
+    ctx.font=`bold ${Math.round(charSz*0.55)}px 'Noto Serif JP',serif`;
     ctx.textAlign='center';ctx.textBaseline='middle';
     ctx.fillText(fc.char,fc.x,fc.y);
   });
@@ -391,58 +395,60 @@ function loop(ts){
   ctx.fillStyle='#b87800';
   rr(ctx,playerX,cH-pH-8,pW,pH,4);ctx.fill();
   ctx.fillStyle='#fff8e0';
-  ctx.font=`bold 9px 'Noto Sans JP',sans-serif`;
+  ctx.font=`bold ${Math.round(pH*0.75)}px sans-serif`;
   ctx.textAlign='center';ctx.textBaseline='middle';
   ctx.fillText('⛩',playerX+pW/2,cH-pH/2-8);
 
   if(countingDown){
-    ctx.fillStyle='rgba(122,21,21,.18)';ctx.fillRect(0,0,cW,cH);
+    ctx.fillStyle='rgba(122,21,21,.15)';ctx.fillRect(0,0,cW,cH);
     ctx.fillStyle='#7a1515';
-    ctx.font=`bold 72px 'Noto Serif JP',serif`;
+    const fs=Math.min(cW*0.2,80);
+    ctx.font=`bold ${fs}px 'Noto Serif JP',serif`;
     ctx.textAlign='center';ctx.textBaseline='middle';
     ctx.fillText(document.getElementById('cdNum').textContent,cW/2,cH/2);
   }
-
   animId=requestAnimationFrame(loop);
 }
 
-function rr(ctx,x,y,w,h,r){
-  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
-  ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);ctx.lineTo(x+r,y+h);
-  ctx.arcTo(x,y+h,x,y+h-r,r);ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();
+function rr(c,x,y,w,h,r){
+  c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);
+  c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);c.lineTo(x+r,y+h);
+  c.arcTo(x,y+h,x,y+h-r,r);c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r);c.closePath();
 }
 
 function collect(fc){
   const q=questions[curQ];
   const maxLen=gameMode==='kotowaza'?q.blank.length:q.chars.length;
   if(answers.length>=maxLen)return;
-  fc.collected=true;
-  answers.push(fc.char);
-  updateAnsArea();
+  fc.collected=true;answers.push(fc.char);updateAnsArea();
   if(answers.length>=maxLen)setTimeout(()=>submitAns(),350);
 }
-
 function updateAnsArea(){
-  const area=document.getElementById('ansArea');
-  if(answers.length===0){area.innerHTML='<span style="font-size:11px;color:#b8a080">文字を拾うとここに集まります</span>';return;}
-  area.innerHTML=answers.map((c,i)=>`<span class="ans-char" onclick="removeChar(${i})">${c}</span>`).join('');
+  const a=document.getElementById('ansArea');
+  if(answers.length===0){a.innerHTML='<span style="font-size:11px;color:#b8a080">文字を拾うとここに集まります</span>';return;}
+  a.innerHTML=answers.map((c,i)=>`<span class="ans-char" onclick="removeChar(${i})">${c}</span>`).join('');
 }
-function removeChar(i){answers.splice(i,1);fallingChars.find(f=>f.collected&&f.char===answers[i])&&(()=>{})();updateAnsArea();}
-function clearAns(){answers=[];fallingChars.forEach(f=>f.collected=false);spawnKotoChars(questions[curQ]);if(gameMode==='senryu')spawnSenryuChars(questions[curQ]);updateAnsArea();}
+function removeChar(i){answers.splice(i,1);updateAnsArea();}
+function clearAns(){
+  answers=[];
+  fallingChars.forEach(f=>f.collected=false);
+  const q=questions[curQ];
+  gameMode==='kotowaza'?spawnKoto(q):spawnSenryu(q);
+  updateAnsArea();
+}
 
 function submitAns(){
   if(countingDown)return;
   const q=questions[curQ];
-  gameActive=false;
-  if(cdTimer)clearInterval(cdTimer);
+  gameActive=false;if(cdTimer)clearInterval(cdTimer);
   const given=answers.join('');
   if(gameMode==='kotowaza'){
     const ok=given===q.blank;
     if(ok)score++;
-    review.push({label:q.display,answer:q.blank,given,correct:ok,mode:'koto'});
+    review.push({label:q.display,answer:q.blank,given,correct:ok});
     showPopupKoto(ok,q,given);
   } else {
-    review.push({label:q.kami,answer:q.shimo,given,correct:null,mode:'senryu'});
+    review.push({label:q.kami,answer:q.shimo,given,correct:null});
     showPopupSenryu(q,given);
   }
 }
@@ -464,7 +470,7 @@ async function showPopupSenryu(q,given){
   document.getElementById('pBtn').textContent='　…　';
   document.getElementById('pBtn').disabled=true;
   showPopup();
-  try {
+  try{
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
@@ -475,20 +481,20 @@ async function showPopupSenryu(q,given){
     });
     const data=await res.json();
     const txt=data.content.find(c=>c.type==='text')?.text||'{}';
-    const clean=txt.replace(/```json|```/g,'').trim();
-    const obj=JSON.parse(clean);
-    const scoreColors={'◎':'#1a7a1a','○':'#7a5a00','△':'#7a4a00','×':'#7a1515'};
+    const obj=JSON.parse(txt.replace(/```json|```/g,'').trim());
+    const cols={'◎':'#1a7a1a','○':'#7a5a00','△':'#7a4a00','×':'#7a1515'};
     const sc=obj.score||'△';
     document.getElementById('pIco').textContent=sc==='◎'?'🌸':sc==='○'?'🌼':sc==='△'?'🍂':'💦';
-    document.getElementById('evalBadge').style.cssText=`display:inline-block;padding:4px 14px;border-radius:12px;font-size:13px;font-weight:700;background:${scoreColors[sc]||'#888'};color:#fff;margin-bottom:8px`;
-    document.getElementById('evalBadge').textContent=`${sc} 面白さ：${obj.funny||'-'}/5`;
+    const eb=document.getElementById('evalBadge');
+    eb.style.cssText=`display:inline-block;padding:4px 14px;border-radius:12px;font-size:13px;font-weight:700;background:${cols[sc]||'#888'};color:#fff;margin-bottom:8px`;
+    eb.textContent=`${sc} 面白さ：${obj.funny||'-'}/5`;
     document.getElementById('pTitle').textContent='AI評価';
     document.getElementById('pBody').innerHTML=`下の句：<strong style="color:#7a1515">${given||'（なし）'}</strong><br><em style="font-size:12px;color:#5a3a10">${obj.comment||''}</em><br><span style="font-size:11px;color:#888">模範の句：${q.shimo}</span>`;
     if(sc==='◎'||sc==='○')score++;
     review[review.length-1].correct=(sc==='◎'||sc==='○');
     review[review.length-1].aiScore=sc;
     review[review.length-1].aiComment=obj.comment||'';
-  } catch(e){
+  }catch(e){
     document.getElementById('pTitle').textContent='AIに聞けず…';
     document.getElementById('pBody').innerHTML+=`<br><span style="font-size:11px;color:#888">（ネット接続を確認してください）</span>`;
   }
@@ -496,31 +502,26 @@ async function showPopupSenryu(q,given){
   document.getElementById('pBtn').disabled=false;
 }
 
-function showPopup(){document.getElementById('popupLayer').classList.add('show')}
-function hidePopup(){document.getElementById('popupLayer').classList.remove('show')}
+function showPopup(){document.getElementById('popupLayer').classList.add('show');}
+function hidePopup(){document.getElementById('popupLayer').classList.remove('show');}
 
 function nextQ(){
-  hidePopup();
-  curQ++;
+  hidePopup();curQ++;
   if(curQ>=questions.length){showResult();return;}
-  answers=[];
-  gameActive=false;
-  loadQ();
+  answers=[];gameActive=false;loadQ();
   requestAnimationFrame(loop);
 }
-
 function skipQ(){
   if(cdTimer)clearInterval(cdTimer);
   const q=questions[curQ];
-  review.push({label:gameMode==='kotowaza'?q.display:q.kami,answer:gameMode==='kotowaza'?q.blank:q.shimo,given:'（パス）',correct:false,mode:gameMode});
+  review.push({label:gameMode==='kotowaza'?q.display:q.kami,answer:gameMode==='kotowaza'?q.blank:q.shimo,given:'（パス）',correct:false});
   curQ++;
   if(curQ>=questions.length){showResult();return;}
   answers=[];gameActive=false;loadQ();
 }
 
 function showResult(){
-  gameActive=false;
-  showScreen('scResult');
+  gameActive=false;showScreen('scResult');
   document.getElementById('rScore').textContent=`${score}/${questions.length}`;
   document.getElementById('rMode').textContent=gameMode==='senryu'?'川柳（下の句）':'ことわざ穴埋め';
   document.getElementById('rLv').textContent={ippan:'一般',chukyu:'中級',meijin:'名人'}[level];
@@ -555,3 +556,5 @@ function goTitle(){
 }
 </script>
 </div>
+</body>
+</html>
