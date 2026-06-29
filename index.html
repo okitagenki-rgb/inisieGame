@@ -15,7 +15,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
 .mon{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:clamp(20px,5vw,28px);opacity:.7}
 .screen{display:none}.screen.active{display:block}
 
-/* TITLE */
 .title-body{text-align:center;padding:clamp(14px,4vw,22px) 16px}
 .kamon{font-size:clamp(48px,14vw,70px);line-height:1;margin:6px 0}
 .title-main{font-family:'Noto Serif JP',serif;font-size:clamp(18px,5vw,26px);color:#7a1515;letter-spacing:3px;margin:8px 0 4px}
@@ -33,7 +32,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
 .start-btn:active{background:#906000}
 .key-hint{margin-top:12px;font-size:clamp(10px,2.8vw,12px);color:#7a5020;line-height:1.9}
 
-/* GAME */
 .g-bar{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:rgba(122,21,21,.07);border-bottom:1px solid rgba(122,21,21,.18)}
 .g-badge{background:#7a1515;color:#fdf3e0;padding:3px 9px;border-radius:11px;font-size:clamp(10px,2.8vw,12px)}
 .g-score{color:#7a1515;font-weight:700;font-size:clamp(11px,3vw,13px)}
@@ -57,18 +55,15 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
 .g-btn.primary{background:#7a1515;color:#fdf3e0}
 .g-btn.primary:active{background:#5a0e0e}
 
-/* POPUP */
 .popup-layer{display:none;background:rgba(0,0,0,.48);padding:30px 16px;min-height:300px;align-items:center;justify-content:center}
 .popup-layer.show{display:flex}
 .popup-box{background:#fdf3e0;border:3px solid #b87800;border-radius:10px;padding:clamp(16px,5vw,24px) clamp(18px,5vw,28px);text-align:center;max-width:340px;width:100%}
 .popup-ico{font-size:clamp(36px,10vw,48px);margin-bottom:6px}
-.eval-badge{display:none;padding:4px 14px;border-radius:12px;font-size:clamp(12px,3.5vw,14px);font-weight:700;margin-bottom:8px}
 .popup-ttl{font-family:'Noto Serif JP',serif;font-size:clamp(16px,5vw,20px);color:#7a1515;letter-spacing:2px;margin-bottom:7px}
-.popup-body{font-family:'Noto Serif JP',serif;font-size:clamp(12px,3.5vw,15px);color:#4a3010;line-height:1.8;margin-bottom:14px}
+.popup-body{font-family:'Noto Serif JP',serif;font-size:clamp(12px,3.5vw,15px);color:#4a3010;line-height:1.9;margin-bottom:14px}
 .popup-btn{padding:clamp(9px,3vw,12px) clamp(22px,6vw,28px);background:#7a1515;color:#fdf3e0;border:none;border-radius:6px;font-family:'Noto Serif JP',serif;font-size:clamp(14px,4vw,16px);letter-spacing:2px;cursor:pointer;transition:.2s}
 .popup-btn:active{background:#5a0e0e}
 
-/* RESULT */
 .result-body{text-align:center;padding:clamp(12px,4vw,18px) 16px}
 .zb-emoji{font-size:clamp(56px,18vw,76px);margin:8px 0;line-height:1}
 .zb-title{font-family:'Noto Serif JP',serif;font-size:clamp(18px,5.5vw,23px);color:#7a1515;letter-spacing:3px;margin-bottom:5px}
@@ -88,7 +83,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
   <span class="mon">⛩</span>
 </div>
 
-<!-- TITLE -->
 <div id="scTitle" class="screen active">
   <div class="title-body">
     <div class="kamon">🎴</div>
@@ -112,7 +106,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
   </div>
 </div>
 
-<!-- GAME -->
 <div id="scGame" class="screen">
   <div class="g-bar">
     <span class="g-badge" id="gBadge">一般</span>
@@ -128,9 +121,7 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
   <div class="ans-label">拾った文字：</div>
   <div class="ans-area" id="ansArea"><span style="font-size:11px;color:#b8a080">文字を拾うとここに集まります</span></div>
   <div class="canvas-outer">
-    <div class="canvas-wrap">
-      <canvas id="gc"></canvas>
-    </div>
+    <div class="canvas-wrap"><canvas id="gc"></canvas></div>
   </div>
   <div class="touch-note">画面をタップ／スワイプで左右移動</div>
   <div class="g-actions">
@@ -140,7 +131,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
   </div>
 </div>
 
-<!-- RESULT -->
 <div id="scResult" class="screen">
   <div class="result-body">
     <div class="zb-emoji" id="zbEmoji">🪑</div>
@@ -160,11 +150,9 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
   </div>
 </div>
 
-<!-- POPUP -->
 <div class="popup-layer" id="popupLayer">
   <div class="popup-box">
     <div class="popup-ico" id="pIco">⭕</div>
-    <div class="eval-badge" id="evalBadge"></div>
     <div class="popup-ttl" id="pTitle">正解！</div>
     <div class="popup-body" id="pBody">－</div>
     <button class="popup-btn" id="pBtn" onclick="nextQ()">次の問題へ</button>
@@ -216,10 +204,10 @@ const SENRYU={
     {kami:'古池や　蛙飛び込む',shimo:'みずのおと',hint:'松尾芭蕉の有名な俳句の結び',chars:['み','ず','の','お','と']},
     {kami:'菜の花や　月は東に',shimo:'ひはにしに',hint:'与謝蕪村の句・方角が対になる',chars:['ひ','は','に','し','に']},
     {kami:'やせ蛙　負けるな一茶',shimo:'これにあり',hint:'小林一茶の応援の句',chars:['こ','れ','に','あ','り']},
-    {kami:'春の海　終日のたり',shimo:'のたりかな',hint:'のんびりした春の海',chars:['の','た','り','か','な']},
+    {kami:'春の海　終日のたり',shimo:'のたりかな',hint:'のんびりした春の海の結び',chars:['の','た','り','か','な']},
     {kami:'静けさや　岩に沁み入る',shimo:'せみのこえ',hint:'夏の虫の声',chars:['せ','み','の','こ','え']},
     {kami:'柿食えば　鐘が鳴るなり',shimo:'ほうりゅうじ',hint:'正岡子規の名句・奈良の古寺',chars:['ほ','う','り','ゅ','う','じ']},
-    {kami:'目には青葉　山ほととぎす',shimo:'はつがつお',hint:'初夏の風物詩',chars:['は','つ','が','つ','お']},
+    {kami:'目には青葉　山ほととぎす',shimo:'はつがつお',hint:'初夏の食べ物が出てくる句',chars:['は','つ','が','つ','お']},
     {kami:'荒海や　佐渡によこたう',shimo:'あまのがわ',hint:'夜空に横たわるもの',chars:['あ','ま','の','が','わ']},
     {kami:'初時雨　猿も小蓑を',shimo:'ほしげなり',hint:'猿が雨具を欲しそうにしている',chars:['ほ','し','げ','な','り']},
     {kami:'枯れ枝に　烏のとまりけり',shimo:'あきのくれ',hint:'秋のたそがれ',chars:['あ','き','の','く','れ']}
@@ -227,21 +215,26 @@ const SENRYU={
   chukyu:[
     {kami:'世の中は　三日見ぬ間の',shimo:'さくらかな',hint:'世の無常を桜で詠む',chars:['さ','く','ら','か','な']},
     {kami:'降る雪や　明治は遠く',shimo:'なりにけり',hint:'中村草田男の句',chars:['な','り','に','け','り']},
-    {kami:'万緑の　中や吾子の歯',shimo:'はえそめし',hint:'緑の中に白い歯',chars:['は','え','そ','め','し']},
+    {kami:'万緑の　中や吾子の歯',shimo:'はえそめし',hint:'緑の中に白い歯が生えた',chars:['は','え','そ','め','し']},
     {kami:'夏草や　兵どもが',shimo:'ゆめのあと',hint:'芭蕉の旅・平泉',chars:['ゆ','め','の','あ','と']},
     {kami:'旅に病んで　夢は枯れ野を',shimo:'かけめぐる',hint:'芭蕉の辞世の句',chars:['か','け','め','ぐ','る']},
-    {kami:'春暁や　白きうちより',shimo:'あけぼのの',hint:'春の夜明けを詠む',chars:['あ','け','ぼ','の','の']},
     {kami:'行く春や　鳥啼き魚の',shimo:'めはなみだ',hint:'芭蕉の別れの句',chars:['め','は','な','み','だ']},
     {kami:'名月や　池をめぐりて',shimo:'よもすがら',hint:'月を一晩眺める',chars:['よ','も','す','が','ら']},
     {kami:'草の戸も　住み替はる代ぞ',shimo:'ひなのいえ',hint:'ひな祭りの句',chars:['ひ','な','の','い','え']},
-    {kami:'五月雨を　あつめて早し',shimo:'もがみがわ',hint:'奥の細道の名句',chars:['も','が','み','が','わ']}
+    {kami:'五月雨を　あつめて早し',shimo:'もがみがわ',hint:'奥の細道の名句',chars:['も','が','み','が','わ']},
+    {kami:'春暁や　白きうちより',shimo:'あけぼのの',hint:'春の夜明けを詠む',chars:['あ','け','ぼ','の','の']}
   ],
   meijin:[
     {kami:'木枯らしや　海に夕日を',shimo:'ふきおとす',hint:'木枯らしの力強さ',chars:['ふ','き','お','と','す']},
-    {kami:'春の夜や　女人の髪の',shimo:'においかな',hint:'春の夜の香り',chars:['に','お','い','か','な']},
     {kami:'白露や　茨の刺に',shimo:'ひとつずつ',hint:'茨の棘に一粒ずつ',chars:['ひ','と','つ','ず','つ']},
     {kami:'古暦　捨てかねて今日も',shimo:'まためくる',hint:'古い暦をめくる',chars:['ま','た','め','く','る']},
-    {kami:'春風や　闘志いだきて',shimo:'おかにたつ',hint:'丘に立つ闘志',chars:['お','か','に','た','つ']}
+    {kami:'春風や　闘志いだきて',shimo:'おかにたつ',hint:'丘に立つ闘志',chars:['お','か','に','た','つ']},
+    {kami:'夏の夜や　崩れて明けし',shimo:'冷奴',hint:'夏の夜明けと冷奴',chars:['ひ','や','や','っ','こ']},
+    {kami:'秋深き　隣は何を',shimo:'するひとぞ',hint:'孤独な秋の夜',chars:['す','る','ひ','と','ぞ']},
+    {kami:'春の海　ひねもすのたり',shimo:'のたりかな',hint:'のんびりした春の海',chars:['の','た','り','か','な']},
+    {kami:'雪とけて　村いっぱいの',shimo:'こどもかな',hint:'雪解けと子供たち',chars:['こ','ど','も','か','な']},
+    {kami:'痩せがえる　負けるな一茶',shimo:'これにあり',hint:'一茶の応援の句',chars:['こ','れ','に','あ','り']},
+    {kami:'赤とんぼ　筑波に雲も',shimo:'なかりけり',hint:'赤とんぼと筑波山',chars:['な','か','り','け','り']}
   ]
 };
 
@@ -264,32 +257,17 @@ let canvas,ctx,cW=300,cH=220,pW=0,pH=14;
 let gameActive=false,countingDown=false,cdLeft=5,cdTimer=null;
 let touchSX=0;
 
-function selectMode(m,btn){
-  gameMode=m;
-  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel');
-}
-function selectLv(lv,btn){
-  level=lv;
-  document.querySelectorAll('.lv-btn').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel');
-  document.getElementById('lvDesc').textContent=LV_DESC[lv];
-}
+function selectMode(m,btn){gameMode=m;document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');}
+function selectLv(lv,btn){level=lv;document.querySelectorAll('.lv-btn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');document.getElementById('lvDesc').textContent=LV_DESC[lv];}
 function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
 
 function startGame(){
   const pool=gameMode==='senryu'?SENRYU[level]:KOTO[level];
   questions=shuffle(pool).slice(0,Math.min(10,pool.length));
   curQ=0;score=0;answers=[];review=[];
-  showScreen('scGame');
-  initCanvas();
-  loadQ();
+  showScreen('scGame');initCanvas();loadQ();
 }
-
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 
 function loadQ(){
   const q=questions[curQ];
@@ -299,12 +277,12 @@ function loadQ(){
   answers=[];updateAnsArea();fallingChars=[];gameActive=false;
   if(gameMode==='kotowaza'){
     document.getElementById('probLabel').textContent='【ことわざ穴埋め】';
-    const blanks='□'.repeat(q.blank.length);
-    document.getElementById('probText').innerHTML=q.display.replace(blanks,`<span class="prob-blank">${blanks}</span>`);
+    const bl='□'.repeat(q.blank.length);
+    document.getElementById('probText').innerHTML=q.display.replace(bl,`<span class="prob-blank">${bl}</span>`);
     document.getElementById('hintRow').textContent=`ヒント：${q.hint}`;
     spawnKoto(q);
   } else {
-    document.getElementById('probLabel').textContent='【川柳 下の句作り】';
+    document.getElementById('probLabel').textContent='【川柳 下の句を作ろう】';
     document.getElementById('probText').textContent=`上の句：${q.kami}`;
     document.getElementById('hintRow').textContent=`ヒント：${q.hint}`;
     spawnSenryu(q);
@@ -328,8 +306,7 @@ function spawnSenryu(q){
 function startCD(){
   cdLeft=5;
   const el=document.getElementById('cdNum');
-  el.style.display='block';el.textContent=cdLeft;
-  countingDown=true;
+  el.style.display='block';el.textContent=cdLeft;countingDown=true;
   if(cdTimer)clearInterval(cdTimer);
   cdTimer=setInterval(()=>{
     cdLeft--;
@@ -339,19 +316,14 @@ function startCD(){
 }
 
 function initCanvas(){
-  canvas=document.getElementById('gc');
-  ctx=canvas.getContext('2d');
+  canvas=document.getElementById('gc');ctx=canvas.getContext('2d');
   const wrap=canvas.parentElement;
   cW=wrap.clientWidth;cH=wrap.clientHeight;
   canvas.width=cW;canvas.height=cH;
-  pW=Math.max(44,cW*0.13);
-  playerX=cW/2-pW/2;
+  pW=Math.max(44,cW*0.13);playerX=cW/2-pW/2;
   if(animId)cancelAnimationFrame(animId);
-  lastTs=0;
-  requestAnimationFrame(loop);
-  setupInput();
+  lastTs=0;requestAnimationFrame(loop);setupInput();
 }
-
 function setupInput(){
   document.onkeydown=e=>{
     if(e.key==='ArrowLeft')playerX=Math.max(0,playerX-20);
@@ -363,10 +335,7 @@ function setupInput(){
     playerX=Math.max(0,Math.min(cW-pW,playerX+dx*0.8));
     touchSX=e.touches[0].clientX;e.preventDefault();
   };
-  canvas.onclick=e=>{
-    const r=canvas.getBoundingClientRect();
-    playerX=Math.max(0,Math.min(cW-pW,e.clientX-r.left-pW/2));
-  };
+  canvas.onclick=e=>{const r=canvas.getBoundingClientRect();playerX=Math.max(0,Math.min(cW-pW,e.clientX-r.left-pW/2));};
 }
 
 function loop(ts){
@@ -376,45 +345,33 @@ function loop(ts){
   ctx.fillStyle='#e8ddc8';ctx.fillRect(0,0,cW,cH);
   ctx.strokeStyle='rgba(160,120,60,0.12)';ctx.lineWidth=.5;
   for(let y=0;y<cH;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cW,y);ctx.stroke();}
-
-  const charSz=Math.max(28,Math.min(38,cW*0.1));
+  const csz=Math.max(28,Math.min(38,cW*0.1));
   fallingChars.forEach(fc=>{
     if(fc.collected)return;
     if(gameActive)fc.y+=fc.speed*(dt/16);
     const pcx=playerX+pW/2,pcy=cH-pH-8;
     if(gameActive&&Math.abs(fc.x-pcx)<pW/2+10&&Math.abs(fc.y-pcy)<pH+10){collect(fc);return;}
     if(fc.y>cH+20){fc.y=-28;fc.x=20+Math.random()*(cW-40);}
-    ctx.fillStyle='#7a1515';
-    rr(ctx,fc.x-charSz/2,fc.y-charSz/2,charSz,charSz,6);ctx.fill();
+    ctx.fillStyle='#7a1515';rr(ctx,fc.x-csz/2,fc.y-csz/2,csz,csz,6);ctx.fill();
     ctx.fillStyle='#fdf3e0';
-    ctx.font=`bold ${Math.round(charSz*0.55)}px 'Noto Serif JP',serif`;
-    ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(fc.char,fc.x,fc.y);
+    ctx.font=`bold ${Math.round(csz*0.55)}px 'Noto Serif JP',serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(fc.char,fc.x,fc.y);
   });
-
-  ctx.fillStyle='#b87800';
-  rr(ctx,playerX,cH-pH-8,pW,pH,4);ctx.fill();
+  ctx.fillStyle='#b87800';rr(ctx,playerX,cH-pH-8,pW,pH,4);ctx.fill();
   ctx.fillStyle='#fff8e0';
   ctx.font=`bold ${Math.round(pH*0.75)}px sans-serif`;
   ctx.textAlign='center';ctx.textBaseline='middle';
   ctx.fillText('⛩',playerX+pW/2,cH-pH/2-8);
-
   if(countingDown){
     ctx.fillStyle='rgba(122,21,21,.15)';ctx.fillRect(0,0,cW,cH);
     ctx.fillStyle='#7a1515';
-    const fs=Math.min(cW*0.2,80);
-    ctx.font=`bold ${fs}px 'Noto Serif JP',serif`;
+    ctx.font=`bold ${Math.min(cW*0.2,80)}px 'Noto Serif JP',serif`;
     ctx.textAlign='center';ctx.textBaseline='middle';
     ctx.fillText(document.getElementById('cdNum').textContent,cW/2,cH/2);
   }
   animId=requestAnimationFrame(loop);
 }
-
-function rr(c,x,y,w,h,r){
-  c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);
-  c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);c.lineTo(x+r,y+h);
-  c.arcTo(x,y+h,x,y+h-r,r);c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r);c.closePath();
-}
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);c.lineTo(x+r,y+h);c.arcTo(x,y+h,x,y+h-r,r);c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r);c.closePath();}
 
 function collect(fc){
   const q=questions[curQ];
@@ -430,8 +387,7 @@ function updateAnsArea(){
 }
 function removeChar(i){answers.splice(i,1);updateAnsArea();}
 function clearAns(){
-  answers=[];
-  fallingChars.forEach(f=>f.collected=false);
+  answers=[];fallingChars.forEach(f=>f.collected=false);
   const q=questions[curQ];
   gameMode==='kotowaza'?spawnKoto(q):spawnSenryu(q);
   updateAnsArea();
@@ -442,74 +398,37 @@ function submitAns(){
   const q=questions[curQ];
   gameActive=false;if(cdTimer)clearInterval(cdTimer);
   const given=answers.join('');
+
   if(gameMode==='kotowaza'){
     const ok=given===q.blank;
     if(ok)score++;
     review.push({label:q.display,answer:q.blank,given,correct:ok});
-    showPopupKoto(ok,q,given);
+    document.getElementById('pIco').textContent=ok?'⭕':'❌';
+    document.getElementById('pTitle').textContent=ok?'正 解 ！':'不 正 解';
+    document.getElementById('pBody').innerHTML=
+      `答え：<strong style="color:#7a1515">${q.blank}</strong><br>`+
+      `<span style="font-size:12px">${q.display.replace('□'.repeat(q.blank.length),q.blank)}</span>`+
+      (!ok?`<br><span style="font-size:11px;color:#888">（あなた：${given||'なし'}）</span>`:'');
   } else {
-    review.push({label:q.kami,answer:q.shimo,given,correct:null});
-    showPopupSenryu(q,given);
-  }
-}
-
-function showPopupKoto(ok,q,given){
-  document.getElementById('pIco').textContent=ok?'⭕':'❌';
-  document.getElementById('evalBadge').style.display='none';
-  document.getElementById('pTitle').textContent=ok?'正 解 ！':'不 正 解';
-  document.getElementById('pBody').innerHTML=`答え：<strong style="color:#7a1515">${q.blank}</strong><br><span style="font-size:12px">${q.display.replace('□'.repeat(q.blank.length),q.blank)}</span>${!ok?`<br><span style="font-size:11px;color:#888">（あなた：${given||'なし'}）</span>`:''}`;
-  document.getElementById('pBtn').textContent=curQ<questions.length-1?'次の問題へ':'結果を見る';
-  showPopup();
-}
-
-async function showPopupSenryu(q,given){
-  document.getElementById('pIco').textContent='🤔';
-  document.getElementById('evalBadge').style.display='none';
-  document.getElementById('pTitle').textContent='AIが評価中…';
-  document.getElementById('pBody').innerHTML=`あなたの下の句：<strong style="color:#7a1515">${given||'（なし）'}</strong><br>模範：${q.shimo}`;
-  document.getElementById('pBtn').textContent='　…　';
-  document.getElementById('pBtn').disabled=true;
-  showPopup();
-  try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-6',max_tokens:300,
-        messages:[{role:'user',content:`俳句の採点をしてください。上の句：「${q.kami}」。プレイヤーが作った下の句：「${given||'（なし）'}」。本来の下の句：「${q.shimo}」。\n\n以下のJSON形式のみで返答してください（他の文章は不要）：\n{"score":"◎良い/○まあまあ/△惜しい/×残念","comment":"20字以内の短評","funny":"0〜5の面白さスコア"}`}]
-      })
-    });
-    const data=await res.json();
-    const txt=data.content.find(c=>c.type==='text')?.text||'{}';
-    const obj=JSON.parse(txt.replace(/```json|```/g,'').trim());
-    const cols={'◎':'#1a7a1a','○':'#7a5a00','△':'#7a4a00','×':'#7a1515'};
-    const sc=obj.score||'△';
-    document.getElementById('pIco').textContent=sc==='◎'?'🌸':sc==='○'?'🌼':sc==='△'?'🍂':'💦';
-    const eb=document.getElementById('evalBadge');
-    eb.style.cssText=`display:inline-block;padding:4px 14px;border-radius:12px;font-size:13px;font-weight:700;background:${cols[sc]||'#888'};color:#fff;margin-bottom:8px`;
-    eb.textContent=`${sc} 面白さ：${obj.funny||'-'}/5`;
-    document.getElementById('pTitle').textContent='AI評価';
-    document.getElementById('pBody').innerHTML=`下の句：<strong style="color:#7a1515">${given||'（なし）'}</strong><br><em style="font-size:12px;color:#5a3a10">${obj.comment||''}</em><br><span style="font-size:11px;color:#888">模範の句：${q.shimo}</span>`;
-    if(sc==='◎'||sc==='○')score++;
-    review[review.length-1].correct=(sc==='◎'||sc==='○');
-    review[review.length-1].aiScore=sc;
-    review[review.length-1].aiComment=obj.comment||'';
-  }catch(e){
-    document.getElementById('pTitle').textContent='AIに聞けず…';
-    document.getElementById('pBody').innerHTML+=`<br><span style="font-size:11px;color:#888">（ネット接続を確認してください）</span>`;
+    const ok=given===q.shimo;
+    if(ok)score++;
+    review.push({label:q.kami,answer:q.shimo,given,correct:ok});
+    document.getElementById('pIco').textContent=ok?'🌸':'🍂';
+    document.getElementById('pTitle').textContent=ok?'ぴったり！':'惜しい！';
+    document.getElementById('pBody').innerHTML=
+      `あなたの下の句：<strong style="color:#7a1515">${given||'（なし）'}</strong><br>`+
+      `正解の下の句：<strong style="color:#1a5a1a">${q.shimo}</strong><br>`+
+      `<span style="font-size:11px;color:#7a5020">　${q.kami}　${q.shimo}</span>`;
   }
   document.getElementById('pBtn').textContent=curQ<questions.length-1?'次の問題へ':'結果を見る';
-  document.getElementById('pBtn').disabled=false;
+  document.getElementById('popupLayer').classList.add('show');
 }
-
-function showPopup(){document.getElementById('popupLayer').classList.add('show');}
-function hidePopup(){document.getElementById('popupLayer').classList.remove('show');}
 
 function nextQ(){
-  hidePopup();curQ++;
+  document.getElementById('popupLayer').classList.remove('show');
+  curQ++;
   if(curQ>=questions.length){showResult();return;}
-  answers=[];gameActive=false;loadQ();
-  requestAnimationFrame(loop);
+  answers=[];gameActive=false;loadQ();requestAnimationFrame(loop);
 }
 function skipQ(){
   if(cdTimer)clearInterval(cdTimer);
@@ -533,16 +452,12 @@ function showResult(){
   document.getElementById('reviewList').innerHTML=
     '<div style="font-family:\'Noto Serif JP\',serif;font-size:12px;color:#7a1515;text-align:center;margin-bottom:7px;letter-spacing:2px">〜 答え合わせ 〜</div>'+
     review.map((r,i)=>{
-      const ok=r.correct===true;
-      const col=ok?'rgba(0,100,0,0.07)':'rgba(122,21,21,0.07)';
-      const bd=ok?'#2d7a2d':'#7a1515';
-      const extra=r.aiScore?`<span style="font-size:10px;color:#7a5a00"> AI：${r.aiScore} ${r.aiComment}</span>`:'';
-      return `<div class="review-item" style="background:${col};border:1px solid ${bd}">
+      const ok=r.correct;
+      return `<div class="review-item" style="background:${ok?'rgba(0,100,0,0.07)':'rgba(122,21,21,0.07)'};border:1px solid ${ok?'#2d7a2d':'#7a1515'}">
         <span style="font-weight:700;color:#4a2a00">${i+1}問</span>
-        <span style="float:right">${r.correct===null?'－':ok?'⭕':'❌'}</span><br>
+        <span style="float:right">${ok?'⭕':'❌'}</span><br>
         答え：<span style="color:#7a1515;font-weight:700">${r.answer}</span>
         ${r.given&&r.given!==r.answer?`<span style="color:#888;font-size:10px">（あなた：${r.given}）</span>`:''}
-        ${extra}
       </div>`;
     }).join('');
 }
@@ -551,8 +466,7 @@ function goTitle(){
   gameActive=false;countingDown=false;
   if(cdTimer)clearInterval(cdTimer);
   if(animId)cancelAnimationFrame(animId);
-  document.onkeydown=null;
-  showScreen('scTitle');
+  document.onkeydown=null;showScreen('scTitle');
 }
 </script>
 </div>
