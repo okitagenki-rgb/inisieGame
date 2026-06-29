@@ -14,7 +14,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
 .hdr-sub{font-size:clamp(9px,2.5vw,11px);color:#f0d080;letter-spacing:2px;margin-top:2px}
 .mon{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:clamp(20px,5vw,28px);opacity:.7}
 .screen{display:none}.screen.active{display:block}
-
 .title-body{text-align:center;padding:clamp(14px,4vw,22px) 16px}
 .kamon{font-size:clamp(48px,14vw,70px);line-height:1;margin:6px 0}
 .title-main{font-family:'Noto Serif JP',serif;font-size:clamp(18px,5vw,26px);color:#7a1515;letter-spacing:3px;margin:8px 0 4px}
@@ -31,7 +30,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
 .start-btn{display:block;width:clamp(160px,50vw,200px);margin:0 auto;padding:clamp(11px,3.5vw,14px);background:#b87800;color:#fff;font-family:'Noto Serif JP',serif;font-size:clamp(15px,4.5vw,18px);letter-spacing:3px;border:none;border-radius:8px;cursor:pointer;transition:.2s}
 .start-btn:active{background:#906000}
 .key-hint{margin-top:12px;font-size:clamp(10px,2.8vw,12px);color:#7a5020;line-height:1.9}
-
 .g-bar{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:rgba(122,21,21,.07);border-bottom:1px solid rgba(122,21,21,.18)}
 .g-badge{background:#7a1515;color:#fdf3e0;padding:3px 9px;border-radius:11px;font-size:clamp(10px,2.8vw,12px)}
 .g-score{color:#7a1515;font-weight:700;font-size:clamp(11px,3vw,13px)}
@@ -54,7 +52,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
 .g-btn:active{background:#7a1515;color:#fdf3e0}
 .g-btn.primary{background:#7a1515;color:#fdf3e0}
 .g-btn.primary:active{background:#5a0e0e}
-
 .popup-layer{display:none;background:rgba(0,0,0,.48);padding:30px 16px;min-height:300px;align-items:center;justify-content:center}
 .popup-layer.show{display:flex}
 .popup-box{background:#fdf3e0;border:3px solid #b87800;border-radius:10px;padding:clamp(16px,5vw,24px) clamp(18px,5vw,28px);text-align:center;max-width:340px;width:100%}
@@ -63,7 +60,6 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
 .popup-body{font-family:'Noto Serif JP',serif;font-size:clamp(12px,3.5vw,15px);color:#4a3010;line-height:1.9;margin-bottom:14px}
 .popup-btn{padding:clamp(9px,3vw,12px) clamp(22px,6vw,28px);background:#7a1515;color:#fdf3e0;border:none;border-radius:6px;font-family:'Noto Serif JP',serif;font-size:clamp(14px,4vw,16px);letter-spacing:2px;cursor:pointer;transition:.2s}
 .popup-btn:active{background:#5a0e0e}
-
 .result-body{text-align:center;padding:clamp(12px,4vw,18px) 16px}
 .zb-emoji{font-size:clamp(56px,18vw,76px);margin:8px 0;line-height:1}
 .zb-title{font-family:'Noto Serif JP',serif;font-size:clamp(18px,5.5vw,23px);color:#7a1515;letter-spacing:3px;margin-bottom:5px}
@@ -109,7 +105,7 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
 <div id="scGame" class="screen">
   <div class="g-bar">
     <span class="g-badge" id="gBadge">一般</span>
-    <span class="g-score" id="gCounter">問題 1/10</span>
+    <span id="gCounter" class="g-score">問題 1/10</span>
     <span style="font-size:clamp(11px,3vw,13px);color:#7a1515" id="gScore">正解: 0</span>
   </div>
   <div class="prob-wrap">
@@ -160,313 +156,455 @@ html,body{width:100%;min-height:100vh;overflow-x:hidden;font-family:'Noto Sans J
 </div>
 
 <script>
-const KOTO={
-  ippan:[
-    {blank:'いし',display:'□□の上にも三年',hint:'忍耐が大切',decoys:['かわ','はな','やま','うみ','つき']},
-    {blank:'ねこ',display:'□□に小判',hint:'価値がわからないたとえ',decoys:['いぬ','とり','うし','さる','うま']},
-    {blank:'たび',display:'□□は道連れ世は情け',hint:'旅のことわざ',decoys:['よる','あさ','はな','かぜ','うた']},
-    {blank:'かぜ',display:'□□が吹けば桶屋が儲かる',hint:'思わぬ因果関係',decoys:['あめ','ゆき','くも','つき','ほし']},
-    {blank:'さる',display:'□□も木から落ちる',hint:'名人でも失敗する',decoys:['とり','うし','いぬ','ねこ','うま']},
-    {blank:'いそ',display:'□□□がば回れ',hint:'急ぐときほど慎重に',decoys:['はや','おそ','あわ','ゆる','すぐ']},
-    {blank:'はな',display:'□□より団子',hint:'実利を重んじる',decoys:['つき','ゆき','そら','かぜ','あめ']},
-    {blank:'おに',display:'□□に金棒',hint:'強い者がさらに強くなる',decoys:['かみ','てん','ほし','つき','かぜ']},
-    {blank:'なかま',display:'類は□□□を呼ぶ',hint:'似た者同士が集まる',decoys:['ともだち','ひとびと','こころ','ひかり','いろいろ']},
-    {blank:'ながい',display:'□□□□ものには巻かれろ',hint:'強いものには従え',decoys:['おおき','つよい','やさし','あかい','くろい']}
+// ===== 問題データ =====
+// ことわざ：□の数＝答えの文字数に統一、ひらがな表記で統一
+const KOTO = {
+  ippan: [
+    { blank:'いし',     display:'□□の上にも三年',          hint:'忍耐が大切',               decoys:['かわ','はな','やま','うみ','つき'] },
+    { blank:'ねこ',     display:'□□に小判',                hint:'価値がわからないたとえ',   decoys:['いぬ','とり','うし','さる','うま'] },
+    { blank:'たび',     display:'□□は道連れ世は情け',      hint:'旅のことわざ',             decoys:['よる','あさ','はな','かぜ','うた'] },
+    { blank:'かぜ',     display:'□□が吹けば桶屋が儲かる',  hint:'思わぬ因果関係',           decoys:['あめ','ゆき','くも','つき','ほし'] },
+    { blank:'さる',     display:'□□も木から落ちる',        hint:'名人でも失敗する',         decoys:['とり','うし','いぬ','ねこ','うま'] },
+    { blank:'いそ',     display:'□□□がば回れ',            hint:'急ぐときほど慎重に',       decoys:['はや','おそ','あわ','ゆる','すぐ'] },
+    { blank:'はな',     display:'□□より団子',              hint:'実利を重んじる',           decoys:['つき','ゆき','そら','かぜ','あめ'] },
+    { blank:'おに',     display:'□□に金棒',                hint:'強い者がさらに強くなる',   decoys:['かみ','てん','ほし','つき','かぜ'] },
+    { blank:'なかま',   display:'類は□□□を呼ぶ',          hint:'似た者同士が集まる',       decoys:['ともだ','ひとび','こころ','ひかり','いろい'] },
+    { blank:'ながい',   display:'□□□□ものには巻かれろ',  hint:'強いものには従え',         decoys:['おおき','つよい','やさし','あかい','くろい'] }
   ],
-  chukyu:[
-    {blank:'かべ',display:'□□に耳あり障子に目あり',hint:'どこで聞かれているかわからない',decoys:['とびら','まど','ゆか','てんじょう','いた']},
-    {blank:'みっか',display:'□□□坊主',hint:'飽きっぽい人のたとえ',decoys:['いっか','なのか','じゅうか','よっか','むいか']},
-    {blank:'さじ',display:'□□を投げる',hint:'諦めること',decoys:['はし','つえ','ふで','かさ','かぎ']},
-    {blank:'えびで',display:'□□□□鯛を釣る',hint:'少ない元手で大きな利益',decoys:['おかねで','ちいさな','わずかな','すこしの','やすくて']},
-    {blank:'ないそで',display:'□□□□□は振れぬ',hint:'持っていないものは出せない',decoys:['あるものは','もっている','もたぬもの','かなしいが','むりにでも']},
-    {blank:'たなぼた',display:'□□□□□式',hint:'棚から落ちてくる偶然の幸運',decoys:['おちてきた','ひろいもの','めぐまれた','さいわいな','うれしいな']},
-    {blank:'くちはわざわい',display:'□□□□□□□□のもと',hint:'余計なことを言わないこと',decoys:['ことばがおち','げんがまずい','いいすぎると','はなしすぎて','むだぐちきく']},
-    {blank:'あとのまつり',display:'後悔先に立たず□□□□□□□□',hint:'手遅れのたとえ',decoys:['くやしいな','もうおそい','しかたない','にどとない','かえらない']},
-    {blank:'ぬかにくぎ',display:'□□□□□□手ごたえなし',hint:'何の効果もないたとえ',decoys:['かわにいし','そらにくも','みずにいと','やまにかぜ','はなにつゆ']},
-    {blank:'もとのもくあみ',display:'骨折り損の□□□□□□□□',hint:'苦労しても元通り',decoys:['くたびれもうけ','やりなおしだ','つかれただけ','むだなのです','かえらぬひび']}
+  chukyu: [
+    { blank:'かべ',       display:'□□に耳あり障子に目あり',      hint:'どこで聞かれているかわからない', decoys:['まど','ゆか','いた','はり','とだ'] },
+    { blank:'みっか',     display:'□□□坊主',                    hint:'飽きっぽい人のたとえ',           decoys:['いっか','なのか','よっか','むいか','とおか'] },
+    { blank:'さじ',       display:'□□を投げる',                  hint:'諦めること',                     decoys:['はし','つえ','ふで','かさ','かぎ'] },
+    { blank:'えびで',     display:'□□□□鯛を釣る',              hint:'少ない元手で大きな利益',         decoys:['おかね','ちいさ','わずか','すこし','やすく'] },
+    { blank:'ないそで',   display:'□□□□□は振れぬ',            hint:'持っていないものは出せない',     decoys:['あるもの','もってい','もたぬも','かなしい','むりにも'] },
+    { blank:'たなぼた',   display:'□□□□□式',                  hint:'棚から落ちてくる偶然の幸運',     decoys:['おちてき','ひろいも','めぐまれ','さいわい','うれしい'] },
+    { blank:'くちはわざわい', display:'□□□□□□□□のもと',    hint:'余計なことを言わないこと',       decoys:['ことばがおちる','げんがまずい','いいすぎると','はなしすぎ','むだぐちき'] },
+    { blank:'あとのまつり',   display:'後悔先に立たず□□□□□□□□', hint:'手遅れのたとえ',         decoys:['くやしいな','もうおそい','しかたない','にどとない','かえらない'] },
+    { blank:'ぬかにくぎ', display:'□□□□□□手ごたえなし',      hint:'何の効果もないたとえ',           decoys:['かわにいし','そらにくも','みずにいと','やまにかぜ','はなにつゆ'] },
+    { blank:'もとのもくあみ', display:'骨折り損の□□□□□□□□', hint:'苦労しても元通り',             decoys:['くたびれた','やりなおし','つかれただ','むだなので','かえらぬひ'] }
   ],
-  meijin:[
-    {blank:'ひとのふりみて',display:'□□□□□□□□□わがふり直せ',hint:'他人から学ぶ',decoys:['よそをながめて','たにんのことは','かがみをみても','じぶんだけでは','まわりをみても']},
-    {blank:'たでくうむしも',display:'□□□□□□□□好き好き',hint:'人の好みは様々',decoys:['にがいものでも','だれでもすきな','むしのこころも','はっぱをたべる','うまいまずいも']},
-    {blank:'けがのこうみょう',display:'失敗が□□□□□□□□□□になる',hint:'失敗が思わぬ成功をもたらす',decoys:['おもわぬせいこう','たなぼたしゅぎ','まぐれあたりに','しっぱいがもと','つごうのいいこと']},
-    {blank:'いわぬがはな',display:'□□□□□□□□□である',hint:'言わないほうがよい',decoys:['もくさつすべし','だまっていよう','くちはとざせよ','いわないことが','おしゃべりはだめ']},
-    {blank:'あかのたにん',display:'他人のそら似□□□□□□□□',hint:'全くの他人のこと',decoys:['むかんけいのひと','ただのにんげん','しらないひとの','まったくむえんの','かんけいないひと']},
-    {blank:'よもやまばなし',display:'□□□□□□□□□□に花が咲く',hint:'世間話のこと',decoys:['むかしのことを','あのころのこと','たのしいおはな','くちからでまか','いろいろなはな']},
-    {blank:'はじをすてる',display:'清水の舞台から□□□□□□□□□',hint:'思い切って決断する',decoys:['とびおりるほど','おもいきってね','けっしんをする','ゆうきをだして','なにもかもすて']},
-    {blank:'こうかいさきにたたず',display:'後悔先に立たず／□□□□□□□□□□',hint:'ことわざの続き',decoys:['くやんでもおそい','しっぱいはもとで','まえをよくみよう','かんがえてみれば','もどれないのです']},
-    {blank:'ひとのふんどしで',display:'□□□□□□□□□□相撲を取る',hint:'他人のものを使うたとえ',decoys:['じぶんのものでも','かりてきたもので','つかわせてもらい','おかりしながらも','たにんのたすけで']},
-    {blank:'せんりのみちも',display:'□□□□□□□□一歩から',hint:'大きな目標も小さな一歩から',decoys:['とおいみちのりも','はるかかなたでも','ながいたびでさえ','おおきなゆめでも','むずかしいことも']}
+  meijin: [
+    { blank:'ひとのふりみて',   display:'□□□□□□□□□わがふり直せ',        hint:'他人から学ぶ',             decoys:['よそをながめて','たにんのこと','かがみをみて','じぶんだけで','まわりをみて'] },
+    { blank:'たでくうむしも',   display:'□□□□□□□□好き好き',              hint:'人の好みは様々',           decoys:['にがいもので','だれでもすき','むしのこころ','はっぱをたべ','うまいまずい'] },
+    { blank:'けがのこうみょう', display:'失敗が□□□□□□□□□□になる',      hint:'失敗が思わぬ成功をもたらす', decoys:['おもわぬせいこ','たなぼたしゅぎ','まぐれあたり','しっぱいがも','つごうのいい'] },
+    { blank:'いわぬがはな',     display:'□□□□□□□□□である',              hint:'言わないほうがよい',       decoys:['もくさつすべ','だまっていよ','くちはとざせ','いわないこと','おしゃべりは'] },
+    { blank:'あかのたにん',     display:'他人のそら似□□□□□□□□',          hint:'全くの他人のこと',         decoys:['むかんけいの','ただのにんげ','しらないひと','まったくむえ','かんけいない'] },
+    { blank:'よもやまばなし',   display:'□□□□□□□□□□に花が咲く',        hint:'世間話のこと',             decoys:['むかしのこと','あのころのこ','たのしいおは','くちからでま','いろいろなは'] },
+    { blank:'はじをすてる',     display:'清水の舞台から□□□□□□□□□',      hint:'思い切って決断する',       decoys:['とびおりるほ','おもいきって','けっしんをす','ゆうきをだし','なにもかもす'] },
+    { blank:'ひとのふんどしで', display:'□□□□□□□□□□相撲を取る',        hint:'他人のものを使うたとえ',   decoys:['じぶんのもの','かりてきたも','つかわせても','おかりしなが','たにんのたす'] },
+    { blank:'せんりのみちも',   display:'□□□□□□□□一歩から',            hint:'大きな目標も小さな一歩から', decoys:['とおいみちの','はるかかなた','ながいたびで','おおきなゆめ','むずかしいこ'] },
+    { blank:'こうかいさきにたたず', display:'□□□□□□□□□□□□一度あやまれ', hint:'後悔先に立たず…の続き',  decoys:['くやんでもおそ','しっぱいはも','まえをよくみ','かんがえてみ','もどれないの'] }
   ]
 };
 
-const SENRYU={
-  ippan:[
-    {kami:'古池や　蛙飛び込む',shimo:'みずのおと',hint:'松尾芭蕉の有名な俳句の結び',chars:['み','ず','の','お','と']},
-    {kami:'菜の花や　月は東に',shimo:'ひはにしに',hint:'与謝蕪村の句・方角が対になる',chars:['ひ','は','に','し','に']},
-    {kami:'やせ蛙　負けるな一茶',shimo:'これにあり',hint:'小林一茶の応援の句',chars:['こ','れ','に','あ','り']},
-    {kami:'春の海　終日のたり',shimo:'のたりかな',hint:'のんびりした春の海の結び',chars:['の','た','り','か','な']},
-    {kami:'静けさや　岩に沁み入る',shimo:'せみのこえ',hint:'夏の虫の声',chars:['せ','み','の','こ','え']},
-    {kami:'柿食えば　鐘が鳴るなり',shimo:'ほうりゅうじ',hint:'正岡子規の名句・奈良の古寺',chars:['ほ','う','り','ゅ','う','じ']},
-    {kami:'目には青葉　山ほととぎす',shimo:'はつがつお',hint:'初夏の食べ物が出てくる句',chars:['は','つ','が','つ','お']},
-    {kami:'荒海や　佐渡によこたう',shimo:'あまのがわ',hint:'夜空に横たわるもの',chars:['あ','ま','の','が','わ']},
-    {kami:'初時雨　猿も小蓑を',shimo:'ほしげなり',hint:'猿が雨具を欲しそうにしている',chars:['ほ','し','げ','な','り']},
-    {kami:'枯れ枝に　烏のとまりけり',shimo:'あきのくれ',hint:'秋のたそがれ',chars:['あ','き','の','く','れ']}
+const SENRYU = {
+  ippan: [
+    { kami:'古池や　蛙飛び込む',      shimo:'みずのおと', hint:'松尾芭蕉の名句の結び',     chars:['み','ず','の','お','と'] },
+    { kami:'菜の花や　月は東に',       shimo:'ひはにしに', hint:'与謝蕪村・方角が対になる', chars:['ひ','は','に','し','に'] },
+    { kami:'やせ蛙　負けるな一茶',     shimo:'これにあり', hint:'小林一茶の応援の句',       chars:['こ','れ','に','あ','り'] },
+    { kami:'春の海　終日のたり',       shimo:'のたりかな', hint:'のんびりした春の海の結び', chars:['の','た','り','か','な'] },
+    { kami:'静けさや　岩に沁み入る',   shimo:'せみのこえ', hint:'夏の虫の声',               chars:['せ','み','の','こ','え'] },
+    { kami:'柿食えば　鐘が鳴るなり',   shimo:'ほうりゅうじ', hint:'正岡子規・奈良の古寺',   chars:['ほ','う','り','ゅ','う','じ'] },
+    { kami:'目には青葉　山ほととぎす', shimo:'はつがつお', hint:'初夏の食べ物が出てくる',   chars:['は','つ','が','つ','お'] },
+    { kami:'荒海や　佐渡によこたう',   shimo:'あまのがわ', hint:'夜空に横たわるもの',       chars:['あ','ま','の','が','わ'] },
+    { kami:'初時雨　猿も小蓑を',       shimo:'ほしげなり', hint:'猿が雨具を欲しそうにしている', chars:['ほ','し','げ','な','り'] },
+    { kami:'枯れ枝に　烏のとまりけり', shimo:'あきのくれ', hint:'秋のたそがれ',             chars:['あ','き','の','く','れ'] }
   ],
-  chukyu:[
-    {kami:'世の中は　三日見ぬ間の',shimo:'さくらかな',hint:'世の無常を桜で詠む',chars:['さ','く','ら','か','な']},
-    {kami:'降る雪や　明治は遠く',shimo:'なりにけり',hint:'中村草田男の句',chars:['な','り','に','け','り']},
-    {kami:'万緑の　中や吾子の歯',shimo:'はえそめし',hint:'緑の中に白い歯が生えた',chars:['は','え','そ','め','し']},
-    {kami:'夏草や　兵どもが',shimo:'ゆめのあと',hint:'芭蕉の旅・平泉',chars:['ゆ','め','の','あ','と']},
-    {kami:'旅に病んで　夢は枯れ野を',shimo:'かけめぐる',hint:'芭蕉の辞世の句',chars:['か','け','め','ぐ','る']},
-    {kami:'行く春や　鳥啼き魚の',shimo:'めはなみだ',hint:'芭蕉の別れの句',chars:['め','は','な','み','だ']},
-    {kami:'名月や　池をめぐりて',shimo:'よもすがら',hint:'月を一晩眺める',chars:['よ','も','す','が','ら']},
-    {kami:'草の戸も　住み替はる代ぞ',shimo:'ひなのいえ',hint:'ひな祭りの句',chars:['ひ','な','の','い','え']},
-    {kami:'五月雨を　あつめて早し',shimo:'もがみがわ',hint:'奥の細道の名句',chars:['も','が','み','が','わ']},
-    {kami:'春暁や　白きうちより',shimo:'あけぼのの',hint:'春の夜明けを詠む',chars:['あ','け','ぼ','の','の']}
+  chukyu: [
+    { kami:'世の中は　三日見ぬ間の',     shimo:'さくらかな',  hint:'世の無常を桜で詠む',       chars:['さ','く','ら','か','な'] },
+    { kami:'降る雪や　明治は遠く',       shimo:'なりにけり',  hint:'中村草田男の句',           chars:['な','り','に','け','り'] },
+    { kami:'万緑の　中や吾子の歯',       shimo:'はえそめし',  hint:'緑の中に白い歯が生えた',   chars:['は','え','そ','め','し'] },
+    { kami:'夏草や　兵どもが',           shimo:'ゆめのあと',  hint:'芭蕉の旅・平泉',           chars:['ゆ','め','の','あ','と'] },
+    { kami:'旅に病んで　夢は枯れ野を',   shimo:'かけめぐる',  hint:'芭蕉の辞世の句',           chars:['か','け','め','ぐ','る'] },
+    { kami:'行く春や　鳥啼き魚の',       shimo:'めはなみだ',  hint:'芭蕉の別れの句',           chars:['め','は','な','み','だ'] },
+    { kami:'名月や　池をめぐりて',       shimo:'よもすがら',  hint:'月を一晩眺める',           chars:['よ','も','す','が','ら'] },
+    { kami:'草の戸も　住み替はる代ぞ',   shimo:'ひなのいえ',  hint:'ひな祭りの句',             chars:['ひ','な','の','い','え'] },
+    { kami:'五月雨を　あつめて早し',     shimo:'もがみがわ',  hint:'奥の細道の名句',           chars:['も','が','み','が','わ'] },
+    { kami:'春暁や　白きうちより',       shimo:'あけぼのの',  hint:'春の夜明けを詠む',         chars:['あ','け','ぼ','の','の'] }
   ],
-  meijin:[
-    {kami:'木枯らしや　海に夕日を',shimo:'ふきおとす',hint:'木枯らしの力強さ',chars:['ふ','き','お','と','す']},
-    {kami:'白露や　茨の刺に',shimo:'ひとつずつ',hint:'茨の棘に一粒ずつ',chars:['ひ','と','つ','ず','つ']},
-    {kami:'古暦　捨てかねて今日も',shimo:'まためくる',hint:'古い暦をめくる',chars:['ま','た','め','く','る']},
-    {kami:'春風や　闘志いだきて',shimo:'おかにたつ',hint:'丘に立つ闘志',chars:['お','か','に','た','つ']},
-    {kami:'夏の夜や　崩れて明けし',shimo:'冷奴',hint:'夏の夜明けと冷奴',chars:['ひ','や','や','っ','こ']},
-    {kami:'秋深き　隣は何を',shimo:'するひとぞ',hint:'孤独な秋の夜',chars:['す','る','ひ','と','ぞ']},
-    {kami:'春の海　ひねもすのたり',shimo:'のたりかな',hint:'のんびりした春の海',chars:['の','た','り','か','な']},
-    {kami:'雪とけて　村いっぱいの',shimo:'こどもかな',hint:'雪解けと子供たち',chars:['こ','ど','も','か','な']},
-    {kami:'痩せがえる　負けるな一茶',shimo:'これにあり',hint:'一茶の応援の句',chars:['こ','れ','に','あ','り']},
-    {kami:'赤とんぼ　筑波に雲も',shimo:'なかりけり',hint:'赤とんぼと筑波山',chars:['な','か','り','け','り']}
+  meijin: [
+    { kami:'木枯らしや　海に夕日を',   shimo:'ふきおとす',  hint:'木枯らしの力強さ',   chars:['ふ','き','お','と','す'] },
+    { kami:'白露や　茨の刺に',         shimo:'ひとつずつ',  hint:'茨の棘に一粒ずつ',   chars:['ひ','と','つ','ず','つ'] },
+    { kami:'古暦　捨てかねて今日も',   shimo:'まためくる',  hint:'古い暦をめくる',     chars:['ま','た','め','く','る'] },
+    { kami:'春風や　闘志いだきて',     shimo:'おかにたつ',  hint:'丘に立つ闘志',       chars:['お','か','に','た','つ'] },
+    { kami:'秋深き　隣は何を',         shimo:'するひとぞ',  hint:'孤独な秋の夜',       chars:['す','る','ひ','と','ぞ'] },
+    { kami:'雪とけて　村いっぱいの',   shimo:'こどもかな',  hint:'雪解けと子供たち',   chars:['こ','ど','も','か','な'] },
+    { kami:'赤とんぼ　筑波に雲も',     shimo:'なかりけり',  hint:'赤とんぼと筑波山',   chars:['な','か','り','け','り'] },
+    { kami:'春の夜や　女人の髪の',     shimo:'においかな',  hint:'春の夜の香り',       chars:['に','お','い','か','な'] },
+    { kami:'行く秋や　手をひろげたる', shimo:'くりのいが',  hint:'栗のいがを詠んだ句', chars:['く','り','の','い','が'] },
+    { kami:'春雨や　二葉に萌ゆる',     shimo:'なすのたね',  hint:'春雨と茄子の種',     chars:['な','す','の','た','ね'] }
   ]
 };
 
-const ZABUTON=[
-  {min:10,max:10,emoji:'🟡',title:'金の座布団！',desc:'十枚積まれた金の座布団！\n俳諧の達人に認定でございます！'},
-  {min:8,max:9,emoji:'🪑',title:'銀の座布団！',desc:'立派な腕前！あと一歩で金の座布団。'},
-  {min:6,max:7,emoji:'🪑',title:'座布団六枚！',desc:'まずまずの出来栄えでございます。'},
-  {min:4,max:5,emoji:'🪑',title:'座布団四枚！',desc:'もう少し精進が必要でございます。'},
-  {min:2,max:3,emoji:'🪑',title:'座布団二枚！',desc:'次回はきっと上手くいきます。'},
-  {min:0,max:1,emoji:'😅',title:'座布団没収！',desc:'山田くーん、全部持っていって！\n次回はきっと上手くいきます！'}
+const ZABUTON = [
+  { min:10, max:10, emoji:'🟡', title:'金の座布団！',   desc:'十枚積まれた金の座布団！\n俳諧の達人に認定でございます！' },
+  { min:8,  max:9,  emoji:'🪑', title:'銀の座布団！',   desc:'立派な腕前！あと一歩で金の座布団。' },
+  { min:6,  max:7,  emoji:'🪑', title:'座布団六枚！',   desc:'まずまずの出来栄えでございます。' },
+  { min:4,  max:5,  emoji:'🪑', title:'座布団四枚！',   desc:'もう少し精進が必要でございます。' },
+  { min:2,  max:3,  emoji:'🪑', title:'座布団二枚！',   desc:'次回はきっと上手くいきます。' },
+  { min:0,  max:1,  emoji:'😅', title:'座布団没収！',   desc:'山田くーん、全部持っていって！\n次回はきっと上手くいきます！' }
 ];
 
-const SPEEDS={ippan:0.5,chukyu:1.0,meijin:1.7};
-const LV_DESC={ippan:'ゆっくり落ちてきます。じっくり考えて！',chukyu:'少し速くなります。集中して！',meijin:'速い落下！瞬時の判断を！'};
+const SPEEDS = { ippan:0.5, chukyu:1.0, meijin:1.7 };
+const LV_DESC = {
+  ippan:  'ゆっくり落ちてきます。じっくり考えて！',
+  chukyu: '少し速くなります。集中して！',
+  meijin: '速い落下！瞬時の判断を！'
+};
 
-let gameMode='senryu',level='ippan';
-let questions=[],curQ=0,score=0,answers=[],review=[];
-let fallingChars=[],playerX=0,animId=null,lastTs=0;
-let canvas,ctx,cW=300,cH=220,pW=0,pH=14;
-let gameActive=false,countingDown=false,cdLeft=5,cdTimer=null;
-let touchSX=0;
+// ===== 状態変数 =====
+let gameMode = 'senryu', level = 'ippan';
+let questions = [], curQ = 0, score = 0, answers = [], review = [];
+let fallingChars = [], playerX = 0, animId = null, lastTs = 0;
+let canvas, ctx, cW = 300, cH = 220, pW = 50, pH = 14;
+let gameActive = false, countingDown = false, cdLeft = 5, cdTimer = null;
+let touchSX = 0;
+let submitted = false; // 二重送信防止フラグ
 
-function selectMode(m,btn){gameMode=m;document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');}
-function selectLv(lv,btn){level=lv;document.querySelectorAll('.lv-btn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');document.getElementById('lvDesc').textContent=LV_DESC[lv];}
-function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
-
-function startGame(){
-  const pool=gameMode==='senryu'?SENRYU[level]:KOTO[level];
-  questions=shuffle(pool).slice(0,Math.min(10,pool.length));
-  curQ=0;score=0;answers=[];review=[];
-  showScreen('scGame');initCanvas();loadQ();
+// ===== UI操作 =====
+function selectMode(m, btn) {
+  gameMode = m;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
 }
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function selectLv(lv, btn) {
+  level = lv;
+  document.querySelectorAll('.lv-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('lvDesc').textContent = LV_DESC[lv];
+}
+function shuffle(a) { return [...a].sort(() => Math.random() - .5); }
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-function loadQ(){
-  const q=questions[curQ];
-  document.getElementById('gCounter').textContent=`問題 ${curQ+1}/${questions.length}`;
-  document.getElementById('gScore').textContent=`正解: ${score}`;
-  document.getElementById('gBadge').textContent={ippan:'一般',chukyu:'中級',meijin:'名人'}[level];
-  answers=[];updateAnsArea();fallingChars=[];gameActive=false;
-  if(gameMode==='kotowaza'){
-    document.getElementById('probLabel').textContent='【ことわざ穴埋め】';
-    const bl='□'.repeat(q.blank.length);
-    document.getElementById('probText').innerHTML=q.display.replace(bl,`<span class="prob-blank">${bl}</span>`);
-    document.getElementById('hintRow').textContent=`ヒント：${q.hint}`;
+// ===== ゲーム開始 =====
+function startGame() {
+  const pool = gameMode === 'senryu' ? SENRYU[level] : KOTO[level];
+  questions = shuffle(pool).slice(0, Math.min(10, pool.length));
+  curQ = 0; score = 0; answers = []; review = [];
+  showScreen('scGame');
+  initCanvas();
+  loadQ();
+}
+
+// ===== 問題読み込み =====
+function loadQ() {
+  submitted = false;
+  const q = questions[curQ];
+  document.getElementById('gCounter').textContent = `問題 ${curQ + 1}/${questions.length}`;
+  document.getElementById('gScore').textContent = `正解: ${score}`;
+  document.getElementById('gBadge').textContent = { ippan:'一般', chukyu:'中級', meijin:'名人' }[level];
+  answers = [];
+  updateAnsArea();
+  // 落下文字を完全リセット
+  fallingChars = [];
+  gameActive = false;
+
+  if (gameMode === 'kotowaza') {
+    document.getElementById('probLabel').textContent = '【ことわざ穴埋め】';
+    // □の数を答えの文字数に合わせて動的生成
+    const bl = '□'.repeat(q.blank.length);
+    // displayの□部分をspanに置換（連続する□を一括置換）
+    const html = q.display.replace(/□+/g, m => `<span class="prob-blank">${m}</span>`);
+    document.getElementById('probText').innerHTML = html;
+    document.getElementById('hintRow').textContent = `ヒント：${q.hint}`;
     spawnKoto(q);
   } else {
-    document.getElementById('probLabel').textContent='【川柳 下の句を作ろう】';
-    document.getElementById('probText').textContent=`上の句：${q.kami}`;
-    document.getElementById('hintRow').textContent=`ヒント：${q.hint}`;
+    document.getElementById('probLabel').textContent = '【川柳 下の句を作ろう】';
+    document.getElementById('probText').textContent = `上の句：${q.kami}`;
+    document.getElementById('hintRow').textContent = `ヒント：${q.hint}`;
     spawnSenryu(q);
   }
   startCD();
 }
 
-function spawnKoto(q){
-  const cor=q.blank.split('');
-  const dec=shuffle([...q.decoys]).slice(0,Math.max(2,5-cor.length));
-  const all=shuffle([...cor,...dec]).slice(0,5);
-  const sp=cW/(all.length+1);
-  all.forEach((c,i)=>{fallingChars.push({char:c,x:sp*(i+1)+(Math.random()-.5)*14,y:-28-i*46,speed:SPEEDS[level]+(Math.random()*.3),collected:false});});
-}
-function spawnSenryu(q){
-  const all=shuffle([...q.chars]).slice(0,5);
-  const sp=cW/(all.length+1);
-  all.forEach((c,i)=>{fallingChars.push({char:c,x:sp*(i+1)+(Math.random()-.5)*14,y:-28-i*50,speed:SPEEDS[level]+(Math.random()*.3),collected:false});});
-}
-
-function startCD(){
-  cdLeft=5;
-  const el=document.getElementById('cdNum');
-  el.style.display='block';el.textContent=cdLeft;countingDown=true;
-  if(cdTimer)clearInterval(cdTimer);
-  cdTimer=setInterval(()=>{
-    cdLeft--;
-    if(cdLeft<=0){clearInterval(cdTimer);el.style.display='none';countingDown=false;gameActive=true;}
-    else el.textContent=cdLeft;
-  },1000);
-}
-
-function initCanvas(){
-  canvas=document.getElementById('gc');ctx=canvas.getContext('2d');
-  const wrap=canvas.parentElement;
-  cW=wrap.clientWidth;cH=wrap.clientHeight;
-  canvas.width=cW;canvas.height=cH;
-  pW=Math.max(44,cW*0.13);playerX=cW/2-pW/2;
-  if(animId)cancelAnimationFrame(animId);
-  lastTs=0;requestAnimationFrame(loop);setupInput();
-}
-function setupInput(){
-  document.onkeydown=e=>{
-    if(e.key==='ArrowLeft')playerX=Math.max(0,playerX-20);
-    if(e.key==='ArrowRight')playerX=Math.min(cW-pW,playerX+20);
-  };
-  canvas.ontouchstart=e=>{touchSX=e.touches[0].clientX;e.preventDefault();};
-  canvas.ontouchmove=e=>{
-    const dx=e.touches[0].clientX-touchSX;
-    playerX=Math.max(0,Math.min(cW-pW,playerX+dx*0.8));
-    touchSX=e.touches[0].clientX;e.preventDefault();
-  };
-  canvas.onclick=e=>{const r=canvas.getBoundingClientRect();playerX=Math.max(0,Math.min(cW-pW,e.clientX-r.left-pW/2));};
-}
-
-function loop(ts){
-  if(!lastTs)lastTs=ts;
-  const dt=Math.min(ts-lastTs,50);lastTs=ts;
-  ctx.clearRect(0,0,cW,cH);
-  ctx.fillStyle='#e8ddc8';ctx.fillRect(0,0,cW,cH);
-  ctx.strokeStyle='rgba(160,120,60,0.12)';ctx.lineWidth=.5;
-  for(let y=0;y<cH;y+=30){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cW,y);ctx.stroke();}
-  const csz=Math.max(28,Math.min(38,cW*0.1));
-  fallingChars.forEach(fc=>{
-    if(fc.collected)return;
-    if(gameActive)fc.y+=fc.speed*(dt/16);
-    const pcx=playerX+pW/2,pcy=cH-pH-8;
-    if(gameActive&&Math.abs(fc.x-pcx)<pW/2+10&&Math.abs(fc.y-pcy)<pH+10){collect(fc);return;}
-    if(fc.y>cH+20){fc.y=-28;fc.x=20+Math.random()*(cW-40);}
-    ctx.fillStyle='#7a1515';rr(ctx,fc.x-csz/2,fc.y-csz/2,csz,csz,6);ctx.fill();
-    ctx.fillStyle='#fdf3e0';
-    ctx.font=`bold ${Math.round(csz*0.55)}px 'Noto Serif JP',serif`;
-    ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(fc.char,fc.x,fc.y);
+// ===== 文字生成 =====
+function spawnKoto(q) {
+  // 正解文字を必ず全種類含める
+  const correctChars = q.blank.split('');
+  const decoys = shuffle([...q.decoys]).slice(0, Math.max(1, 5 - correctChars.length));
+  const all = shuffle([...correctChars, ...decoys]).slice(0, 5);
+  const sp = cW / (all.length + 1);
+  all.forEach((c, i) => {
+    fallingChars.push({ char:c, x:sp*(i+1)+(Math.random()-.5)*14, y:-30-i*50, speed:SPEEDS[level]+(Math.random()*.25), collected:false });
   });
-  ctx.fillStyle='#b87800';rr(ctx,playerX,cH-pH-8,pW,pH,4);ctx.fill();
-  ctx.fillStyle='#fff8e0';
-  ctx.font=`bold ${Math.round(pH*0.75)}px sans-serif`;
-  ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('⛩',playerX+pW/2,cH-pH/2-8);
-  if(countingDown){
-    ctx.fillStyle='rgba(122,21,21,.15)';ctx.fillRect(0,0,cW,cH);
-    ctx.fillStyle='#7a1515';
-    ctx.font=`bold ${Math.min(cW*0.2,80)}px 'Noto Serif JP',serif`;
-    ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(document.getElementById('cdNum').textContent,cW/2,cH/2);
-  }
-  animId=requestAnimationFrame(loop);
 }
-function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.lineTo(x+w-r,y);c.arcTo(x+w,y,x+w,y+r,r);c.lineTo(x+w,y+h-r);c.arcTo(x+w,y+h,x+w-r,y+h,r);c.lineTo(x+r,y+h);c.arcTo(x,y+h,x,y+h-r,r);c.lineTo(x,y+r);c.arcTo(x,y,x+r,y,r);c.closePath();}
+function spawnSenryu(q) {
+  const all = shuffle([...q.chars]).slice(0, 5);
+  const sp = cW / (all.length + 1);
+  all.forEach((c, i) => {
+    fallingChars.push({ char:c, x:sp*(i+1)+(Math.random()-.5)*14, y:-30-i*50, speed:SPEEDS[level]+(Math.random()*.25), collected:false });
+  });
+}
 
-function collect(fc){
-  const q=questions[curQ];
-  const maxLen=gameMode==='kotowaza'?q.blank.length:q.chars.length;
-  if(answers.length>=maxLen)return;
-  fc.collected=true;answers.push(fc.char);updateAnsArea();
-  if(answers.length>=maxLen)setTimeout(()=>submitAns(),350);
+// ===== カウントダウン =====
+function startCD() {
+  cdLeft = 5;
+  const el = document.getElementById('cdNum');
+  el.style.display = 'block';
+  el.textContent = cdLeft;
+  countingDown = true;
+  if (cdTimer) clearInterval(cdTimer);
+  cdTimer = setInterval(() => {
+    cdLeft--;
+    if (cdLeft <= 0) {
+      clearInterval(cdTimer);
+      el.style.display = 'none';
+      countingDown = false;
+      gameActive = true;
+    } else {
+      el.textContent = cdLeft;
+    }
+  }, 1000);
 }
-function updateAnsArea(){
-  const a=document.getElementById('ansArea');
-  if(answers.length===0){a.innerHTML='<span style="font-size:11px;color:#b8a080">文字を拾うとここに集まります</span>';return;}
-  a.innerHTML=answers.map((c,i)=>`<span class="ans-char" onclick="removeChar(${i})">${c}</span>`).join('');
+
+// ===== キャンバス =====
+function initCanvas() {
+  canvas = document.getElementById('gc');
+  ctx = canvas.getContext('2d');
+  const wrap = canvas.parentElement;
+  cW = wrap.clientWidth;
+  cH = wrap.clientHeight;
+  canvas.width = cW;
+  canvas.height = cH;
+  pW = Math.max(48, cW * 0.13);
+  playerX = cW / 2 - pW / 2;
+  if (animId) cancelAnimationFrame(animId);
+  lastTs = 0;
+  requestAnimationFrame(loop);
+  setupInput();
 }
-function removeChar(i){answers.splice(i,1);updateAnsArea();}
-function clearAns(){
-  answers=[];fallingChars.forEach(f=>f.collected=false);
-  const q=questions[curQ];
-  gameMode==='kotowaza'?spawnKoto(q):spawnSenryu(q);
+function setupInput() {
+  document.onkeydown = e => {
+    if (e.key === 'ArrowLeft')  playerX = Math.max(0, playerX - 22);
+    if (e.key === 'ArrowRight') playerX = Math.min(cW - pW, playerX + 22);
+  };
+  canvas.ontouchstart = e => { touchSX = e.touches[0].clientX; e.preventDefault(); };
+  canvas.ontouchmove  = e => {
+    const dx = e.touches[0].clientX - touchSX;
+    playerX = Math.max(0, Math.min(cW - pW, playerX + dx * 0.85));
+    touchSX = e.touches[0].clientX;
+    e.preventDefault();
+  };
+  canvas.onclick = e => {
+    const r = canvas.getBoundingClientRect();
+    playerX = Math.max(0, Math.min(cW - pW, e.clientX - r.left - pW / 2));
+  };
+}
+
+// ===== ゲームループ =====
+function loop(ts) {
+  if (!lastTs) lastTs = ts;
+  const dt = Math.min(ts - lastTs, 50);
+  lastTs = ts;
+
+  ctx.clearRect(0, 0, cW, cH);
+  ctx.fillStyle = '#e8ddc8'; ctx.fillRect(0, 0, cW, cH);
+  ctx.strokeStyle = 'rgba(160,120,60,0.12)'; ctx.lineWidth = .5;
+  for (let y = 0; y < cH; y += 30) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(cW,y); ctx.stroke(); }
+
+  const csz = Math.max(28, Math.min(38, cW * 0.1));
+  fallingChars.forEach(fc => {
+    if (fc.collected) return;
+    if (gameActive) fc.y += fc.speed * (dt / 16);
+    // 画面下を超えたらループ（消えない）
+    if (fc.y > cH + 20) {
+      fc.y = -30;
+      fc.x = 20 + Math.random() * (cW - 40);
+    }
+    // プレイヤーとの衝突判定
+    const pcx = playerX + pW / 2;
+    const pcy = cH - pH - 8;
+    if (gameActive && Math.abs(fc.x - pcx) < pW / 2 + 10 && Math.abs(fc.y - pcy) < pH + 12) {
+      collect(fc);
+      return;
+    }
+    // 文字描画
+    ctx.fillStyle = '#7a1515';
+    rr(ctx, fc.x - csz/2, fc.y - csz/2, csz, csz, 6); ctx.fill();
+    ctx.fillStyle = '#fdf3e0';
+    ctx.font = `bold ${Math.round(csz * 0.55)}px 'Noto Serif JP',serif`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(fc.char, fc.x, fc.y);
+  });
+
+  // プレイヤー描画
+  ctx.fillStyle = '#b87800';
+  rr(ctx, playerX, cH - pH - 8, pW, pH, 4); ctx.fill();
+  ctx.fillStyle = '#fff8e0';
+  ctx.font = `bold ${Math.round(pH * 0.75)}px sans-serif`;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText('⛩', playerX + pW/2, cH - pH/2 - 8);
+
+  // カウントダウンオーバーレイ
+  if (countingDown) {
+    ctx.fillStyle = 'rgba(122,21,21,.15)'; ctx.fillRect(0, 0, cW, cH);
+    ctx.fillStyle = '#7a1515';
+    ctx.font = `bold ${Math.min(cW * 0.2, 80)}px 'Noto Serif JP',serif`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(document.getElementById('cdNum').textContent, cW/2, cH/2);
+  }
+
+  animId = requestAnimationFrame(loop);
+}
+
+function rr(c, x, y, w, h, r) {
+  c.beginPath(); c.moveTo(x+r,y); c.lineTo(x+w-r,y); c.arcTo(x+w,y,x+w,y+r,r);
+  c.lineTo(x+w,y+h-r); c.arcTo(x+w,y+h,x+w-r,y+h,r); c.lineTo(x+r,y+h);
+  c.arcTo(x,y+h,x,y+h-r,r); c.lineTo(x,y+r); c.arcTo(x,y,x+r,y,r); c.closePath();
+}
+
+// ===== 文字収集 =====
+function collect(fc) {
+  const q = questions[curQ];
+  const maxLen = gameMode === 'kotowaza' ? q.blank.length : q.chars.length;
+  if (answers.length >= maxLen || submitted) return;
+  fc.collected = true;
+  answers.push(fc.char);
+  updateAnsArea();
+  if (answers.length >= maxLen) setTimeout(() => submitAns(), 400);
+}
+
+function updateAnsArea() {
+  const a = document.getElementById('ansArea');
+  if (answers.length === 0) {
+    a.innerHTML = '<span style="font-size:11px;color:#b8a080">文字を拾うとここに集まります</span>';
+    return;
+  }
+  a.innerHTML = answers.map((c, i) =>
+    `<span class="ans-char" onclick="removeChar(${i})">${c}</span>`
+  ).join('');
+}
+
+// タップで文字を削除し、その文字を落下文字に戻す
+function removeChar(i) {
+  const removed = answers[i];
+  answers.splice(i, 1);
+  // 対応する収集済み文字を未収集に戻す
+  const fc = fallingChars.find(f => f.collected && f.char === removed);
+  if (fc) {
+    fc.collected = false;
+    fc.y = -30;
+    fc.x = 20 + Math.random() * (cW - 40);
+  }
   updateAnsArea();
 }
 
-function submitAns(){
-  if(countingDown)return;
-  const q=questions[curQ];
-  gameActive=false;if(cdTimer)clearInterval(cdTimer);
-  const given=answers.join('');
+// やり直し：全文字を未収集に戻してリスポーン
+function clearAns() {
+  answers = [];
+  fallingChars.forEach(f => {
+    f.collected = false;
+    f.y = -30 - Math.random() * 100;
+    f.x = 20 + Math.random() * (cW - 40);
+  });
+  updateAnsArea();
+}
 
-  if(gameMode==='kotowaza'){
-    const ok=given===q.blank;
-    if(ok)score++;
-    review.push({label:q.display,answer:q.blank,given,correct:ok});
-    document.getElementById('pIco').textContent=ok?'⭕':'❌';
-    document.getElementById('pTitle').textContent=ok?'正 解 ！':'不 正 解';
-    document.getElementById('pBody').innerHTML=
-      `答え：<strong style="color:#7a1515">${q.blank}</strong><br>`+
-      `<span style="font-size:12px">${q.display.replace('□'.repeat(q.blank.length),q.blank)}</span>`+
-      (!ok?`<br><span style="font-size:11px;color:#888">（あなた：${given||'なし'}）</span>`:'');
+// ===== 答え合わせ =====
+function submitAns() {
+  if (countingDown || submitted) return;
+  submitted = true;
+  gameActive = false;
+  if (cdTimer) clearInterval(cdTimer);
+
+  const q = questions[curQ];
+  const given = answers.join('');
+
+  let isCorrect = false;
+  if (gameMode === 'kotowaza') {
+    isCorrect = (given === q.blank);
+    if (isCorrect) score++;
+    review.push({ label:q.display, answer:q.blank, given, correct:isCorrect });
+    document.getElementById('pIco').textContent = isCorrect ? '⭕' : '❌';
+    document.getElementById('pTitle').textContent = isCorrect ? '正 解 ！' : '不 正 解';
+    const fullText = q.display.replace(/□+/g, q.blank);
+    document.getElementById('pBody').innerHTML =
+      `答え：<strong style="color:#7a1515">${q.blank}</strong><br>` +
+      `<span style="font-size:12px">${fullText}</span>` +
+      (!isCorrect ? `<br><span style="font-size:11px;color:#888">（あなた：${given || 'なし'}）</span>` : '');
   } else {
-    const ok=given===q.shimo;
-    if(ok)score++;
-    review.push({label:q.kami,answer:q.shimo,given,correct:ok});
-    document.getElementById('pIco').textContent=ok?'🌸':'🍂';
-    document.getElementById('pTitle').textContent=ok?'ぴったり！':'惜しい！';
-    document.getElementById('pBody').innerHTML=
-      `あなたの下の句：<strong style="color:#7a1515">${given||'（なし）'}</strong><br>`+
-      `正解の下の句：<strong style="color:#1a5a1a">${q.shimo}</strong><br>`+
-      `<span style="font-size:11px;color:#7a5020">　${q.kami}　${q.shimo}</span>`;
+    isCorrect = (given === q.shimo);
+    if (isCorrect) score++;
+    review.push({ label:q.kami, answer:q.shimo, given, correct:isCorrect });
+    document.getElementById('pIco').textContent = isCorrect ? '🌸' : '🍂';
+    document.getElementById('pTitle').textContent = isCorrect ? 'ぴったり！' : '惜しい！';
+    document.getElementById('pBody').innerHTML =
+      `あなたの下の句：<strong style="color:#7a1515">${given || '（なし）'}</strong><br>` +
+      `正解の下の句：<strong style="color:#1a5a1a">${q.shimo}</strong><br>` +
+      `<span style="font-size:11px;color:#7a5020">${q.kami}　${q.shimo}</span>`;
   }
-  document.getElementById('pBtn').textContent=curQ<questions.length-1?'次の問題へ':'結果を見る';
+
+  document.getElementById('gScore').textContent = `正解: ${score}`;
+  document.getElementById('pBtn').textContent = curQ < questions.length - 1 ? '次の問題へ' : '結果を見る';
   document.getElementById('popupLayer').classList.add('show');
 }
 
-function nextQ(){
+// ===== 次の問題 =====
+function nextQ() {
   document.getElementById('popupLayer').classList.remove('show');
   curQ++;
-  if(curQ>=questions.length){showResult();return;}
-  answers=[];gameActive=false;loadQ();requestAnimationFrame(loop);
-}
-function skipQ(){
-  if(cdTimer)clearInterval(cdTimer);
-  const q=questions[curQ];
-  review.push({label:gameMode==='kotowaza'?q.display:q.kami,answer:gameMode==='kotowaza'?q.blank:q.shimo,given:'（パス）',correct:false});
-  curQ++;
-  if(curQ>=questions.length){showResult();return;}
-  answers=[];gameActive=false;loadQ();
+  if (curQ >= questions.length) { showResult(); return; }
+  answers = [];
+  gameActive = false;
+  loadQ();
 }
 
-function showResult(){
-  gameActive=false;showScreen('scResult');
-  document.getElementById('rScore').textContent=`${score}/${questions.length}`;
-  document.getElementById('rMode').textContent=gameMode==='senryu'?'川柳（下の句）':'ことわざ穴埋め';
-  document.getElementById('rLv').textContent={ippan:'一般',chukyu:'中級',meijin:'名人'}[level];
-  document.getElementById('rZabu').textContent=`${score}枚`;
-  const z=ZABUTON.find(z=>score>=z.min&&score<=z.max)||ZABUTON[ZABUTON.length-1];
-  document.getElementById('zbEmoji').textContent=z.emoji;
-  document.getElementById('zbTitle').textContent=z.title;
-  document.getElementById('zbDesc').textContent=z.desc;
-  document.getElementById('reviewList').innerHTML=
-    '<div style="font-family:\'Noto Serif JP\',serif;font-size:12px;color:#7a1515;text-align:center;margin-bottom:7px;letter-spacing:2px">〜 答え合わせ 〜</div>'+
-    review.map((r,i)=>{
-      const ok=r.correct;
+// ===== パス =====
+function skipQ() {
+  if (submitted) return;
+  submitted = true;
+  if (cdTimer) clearInterval(cdTimer);
+  gameActive = false;
+  const q = questions[curQ];
+  review.push({
+    label:  gameMode === 'kotowaza' ? q.display : q.kami,
+    answer: gameMode === 'kotowaza' ? q.blank   : q.shimo,
+    given: '（パス）',
+    correct: false
+  });
+  curQ++;
+  if (curQ >= questions.length) { showResult(); return; }
+  answers = [];
+  loadQ();
+}
+
+// ===== 結果画面 =====
+function showResult() {
+  gameActive = false;
+  showScreen('scResult');
+  document.getElementById('rScore').textContent = `${score}/${questions.length}`;
+  document.getElementById('rMode').textContent  = gameMode === 'senryu' ? '川柳（下の句）' : 'ことわざ穴埋め';
+  document.getElementById('rLv').textContent    = { ippan:'一般', chukyu:'中級', meijin:'名人' }[level];
+  document.getElementById('rZabu').textContent  = `${score}枚`;
+  const z = ZABUTON.find(z => score >= z.min && score <= z.max) || ZABUTON[ZABUTON.length - 1];
+  document.getElementById('zbEmoji').textContent = z.emoji;
+  document.getElementById('zbTitle').textContent = z.title;
+  document.getElementById('zbDesc').textContent  = z.desc;
+  document.getElementById('reviewList').innerHTML =
+    '<div style="font-family:\'Noto Serif JP\',serif;font-size:12px;color:#7a1515;text-align:center;margin-bottom:7px;letter-spacing:2px">〜 答え合わせ 〜</div>' +
+    review.map((r, i) => {
+      const ok = r.correct;
       return `<div class="review-item" style="background:${ok?'rgba(0,100,0,0.07)':'rgba(122,21,21,0.07)'};border:1px solid ${ok?'#2d7a2d':'#7a1515'}">
         <span style="font-weight:700;color:#4a2a00">${i+1}問</span>
-        <span style="float:right">${ok?'⭕':'❌'}</span><br>
+        <span style="float:right">${ok ? '⭕' : '❌'}</span><br>
         答え：<span style="color:#7a1515;font-weight:700">${r.answer}</span>
-        ${r.given&&r.given!==r.answer?`<span style="color:#888;font-size:10px">（あなた：${r.given}）</span>`:''}
+        ${r.given && r.given !== r.answer
+          ? `<span style="color:#888;font-size:10px">（あなた：${r.given}）</span>`
+          : ''}
       </div>`;
     }).join('');
 }
 
-function goTitle(){
-  gameActive=false;countingDown=false;
-  if(cdTimer)clearInterval(cdTimer);
-  if(animId)cancelAnimationFrame(animId);
-  document.onkeydown=null;showScreen('scTitle');
+// ===== タイトルに戻る =====
+function goTitle() {
+  gameActive = false; countingDown = false;
+  if (cdTimer) clearInterval(cdTimer);
+  if (animId) cancelAnimationFrame(animId);
+  document.onkeydown = null;
+  showScreen('scTitle');
 }
 </script>
 </div>
